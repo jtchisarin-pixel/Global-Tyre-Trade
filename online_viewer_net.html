@@ -1,0 +1,1923 @@
+Put your HTML text  <!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Global Tyre Trade - B2B Industrial Scrap Marketplace</title>
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Font Awesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
+  <style>
+    body { font-family: 'Segoe UI', system-ui, -apple-system, sans-serif; }
+    .ticker-wrap { overflow: hidden; white-space: nowrap; }
+    .ticker-move { display: inline-block; animation: ticker 32s linear infinite; }
+    @keyframes ticker {
+      0% { transform: translate3d(0, 0, 0); }
+      100% { transform: translate3d(-50%, 0, 0); }
+    }
+  </style>
+</head>
+<body class="bg-slate-100 min-h-screen text-slate-800 flex flex-col justify-between">
+
+  <!-- ================= 1. LIVE SPOT TICKER ================= -->
+  <div id="topMandiTicker" class="hidden bg-slate-950 text-slate-200 text-xs py-2 px-4 border-b border-slate-800 sticky top-0 z-40">
+    <div class="max-w-7xl mx-auto flex items-center justify-between gap-4">
+      <span class="inline-flex items-center gap-1.5 bg-blue-950 text-blue-400 font-bold px-2 py-0.5 rounded text-[11px] shrink-0">
+        <span class="w-2 h-2 rounded-full bg-blue-400 animate-ping"></span> GLOBAL SPOT FEED
+      </span>
+      <div class="ticker-wrap flex-1">
+        <div class="ticker-move text-[11px] space-x-6 font-mono">
+          <span>🚢 🇮🇳 India Importer Tyre Bales (Mundra CFS): <strong class="text-emerald-400">₹22,800/MT</strong></span>
+          <span>⚫ Recovered Carbon Black (RCB N330 Pellets): <strong class="text-emerald-400">₹22,500/MT</strong></span>
+          <span>🛢️ Tyre Pyrolysis Oil TPO (Factory Dispatch): <strong class="text-emerald-400">₹47.50/Ltr (₹51.60/Kg)</strong></span>
+          <span>⚡ Scrap Tyre Wire (Radial Bead Bales): <strong class="text-emerald-400">₹29,200/MT</strong></span>
+          <span>🏭 Crumb Rubber 30-40 Mesh (Ex-Plant): <strong class="text-emerald-400">₹34,500/MT</strong></span>
+        </div>
+      </div>
+      <div class="text-[11px] text-slate-400 hidden sm:block">
+        <i class="fa-solid fa-shield-halved text-emerald-400 mr-1"></i> Verified Trade Desk
+      </div>
+    </div>
+  </div>
+
+  <!-- ================= 2. SCREEN 1: CLIENT LOGIN & REGISTRATION ================= -->
+  <div id="authScreen" class="flex-grow flex items-center justify-center p-4 sm:p-6 my-auto">
+    <div class="bg-white rounded-3xl shadow-2xl w-full max-w-xl border border-slate-200 overflow-hidden transition-all duration-300">
+      
+      <!-- Brand Header -->
+      <div class="bg-gradient-to-r from-slate-950 via-slate-900 to-blue-950 text-white p-7 text-center relative">
+        <div class="inline-flex items-center justify-center w-14 h-14 bg-blue-600/30 text-blue-400 border border-blue-500/40 rounded-2xl mb-3 text-2xl shadow-inner">
+          <i class="fa-solid fa-earth-americas"></i>
+        </div>
+        <h1 class="text-2xl sm:text-3xl font-black tracking-tight text-white">Global Tyre Trade</h1>
+        <p class="text-xs text-blue-200/80 mt-1 font-medium">B2B Industrial Scrap Tyre & Materials Exchange Network</p>
+
+        <div class="flex items-center justify-center gap-2 mt-4 text-[10px] uppercase font-bold tracking-wider text-slate-300">
+          <span class="bg-white/10 px-2.5 py-1 rounded-full border border-white/10">Importers</span>
+          <span class="bg-white/10 px-2.5 py-1 rounded-full border border-white/10">Recyclers</span>
+          <span class="bg-white/10 px-2.5 py-1 rounded-full border border-white/10">Traders</span>
+        </div>
+      </div>
+
+      <!-- Navigation Tabs -->
+      <div class="flex border-b border-slate-200 bg-slate-50/70 p-1.5 gap-1.5 text-xs font-bold">
+        <button type="button" onclick="switchAuthTab('login')" id="tabBtn-login" class="flex-1 py-2.5 rounded-xl transition flex items-center justify-center gap-2 bg-white text-blue-700 shadow-sm border border-slate-200/80">
+          <i class="fa-solid fa-right-to-bracket text-xs"></i>
+          <span>Sign In</span>
+        </button>
+        <button type="button" onclick="switchAuthTab('register')" id="tabBtn-register" class="flex-1 py-2.5 rounded-xl transition flex items-center justify-center gap-2 text-slate-600 hover:text-slate-900 hover:bg-white/60">
+          <i class="fa-solid fa-user-plus text-xs"></i>
+          <span>New Registration</span>
+        </button>
+      </div>
+
+      <!-- TAB 1: LOGIN FORM -->
+      <div id="view-login" class="p-6 sm:p-8">
+        <form onsubmit="handleLoginSubmit(event)" class="space-y-4">
+          <div>
+            <label class="block text-xs font-bold text-slate-700 mb-1.5">Login Account Role (Authorized Segment) *</label>
+            <div class="grid grid-cols-3 gap-2">
+              <label class="border border-slate-200 p-2.5 rounded-xl text-center cursor-pointer hover:border-blue-500 transition has-[:checked]:border-blue-600 has-[:checked]:bg-blue-50/60">
+                <input type="radio" name="loginRoleChoice" value="importer" checked class="hidden" onchange="updateDefaultUser(this.value)"/>
+                <i class="fa-solid fa-ship text-blue-600 block text-sm mb-1"></i>
+                <span class="text-[11px] font-bold block text-slate-800">Importer</span>
+              </label>
+
+              <label class="border border-slate-200 p-2.5 rounded-xl text-center cursor-pointer hover:border-amber-500 transition has-[:checked]:border-amber-600 has-[:checked]:bg-amber-50/60">
+                <input type="radio" name="loginRoleChoice" value="manufacturer" class="hidden" onchange="updateDefaultUser(this.value)"/>
+                <i class="fa-solid fa-industry text-amber-600 block text-sm mb-1"></i>
+                <span class="text-[11px] font-bold block text-slate-800">Recycler</span>
+              </label>
+
+              <label class="border border-slate-200 p-2.5 rounded-xl text-center cursor-pointer hover:border-purple-500 transition has-[:checked]:border-purple-600 has-[:checked]:bg-purple-50/60">
+                <input type="radio" name="loginRoleChoice" value="trading" class="hidden" onchange="updateDefaultUser(this.value)"/>
+                <i class="fa-solid fa-handshake text-purple-600 block text-sm mb-1"></i>
+                <span class="text-[11px] font-bold block text-slate-800">Trader</span>
+              </label>
+            </div>
+          </div>
+
+          <div>
+            <label class="block text-xs font-bold text-slate-700 mb-1.5">Username</label>
+            <div class="relative">
+              <span class="absolute inset-y-0 left-0 pl-3.5 flex items-center text-slate-400 text-sm">
+                <i class="fa-solid fa-user"></i>
+              </span>
+              <input type="text" id="loginUsername" required value="apex_exim_7491" class="w-full pl-10 pr-3 py-2.5 text-xs sm:text-sm border border-slate-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:outline-none transition"/>
+            </div>
+          </div>
+
+          <div>
+            <div class="flex justify-between items-center mb-1.5">
+              <label class="block text-xs font-bold text-slate-700">Password</label>
+              <button type="button" onclick="switchAuthTab('forgot')" class="text-xs font-bold text-blue-600 hover:text-blue-800 transition hover:underline">
+                Forgot Password?
+              </button>
+            </div>
+            <div class="relative">
+              <span class="absolute inset-y-0 left-0 pl-3.5 flex items-center text-slate-400 text-sm">
+                <i class="fa-solid fa-lock"></i>
+              </span>
+              <input type="password" id="loginPass" required value="password123" class="w-full pl-10 pr-10 py-2.5 text-xs sm:text-sm border border-slate-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:outline-none transition"/>
+              <button type="button" onclick="togglePasswordVisibility('loginPass', 'eyeIconLogin')" class="absolute inset-y-0 right-0 pr-3.5 flex items-center text-slate-400 hover:text-slate-600 text-xs">
+                <i class="fa-solid fa-eye" id="eyeIconLogin"></i>
+              </button>
+            </div>
+          </div>
+
+          <div class="flex items-center justify-between text-xs pt-1">
+            <label class="flex items-center text-slate-600 cursor-pointer select-none">
+              <input type="checkbox" checked class="rounded border-slate-300 text-blue-600 focus:ring-blue-500 mr-2 w-4 h-4">
+              Remember me on this browser
+            </label>
+          </div>
+
+          <button type="submit" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 rounded-xl text-xs sm:text-sm transition shadow-lg shadow-blue-600/20 flex items-center justify-center gap-2">
+            <span>Sign In to Global Tyre Trade</span>
+            <i class="fa-solid fa-arrow-right text-xs"></i>
+          </button>
+        </form>
+
+        <div class="mt-6 pt-5 border-t border-slate-100 text-center text-xs text-slate-500">
+          <span>New company registration?</span>
+          <button type="button" onclick="switchAuthTab('register')" class="ml-1 text-blue-600 font-bold hover:underline">
+            Register Business Account
+          </button>
+        </div>
+      </div>
+
+      <!-- TAB 2: NEW REGISTRATION -->
+      <div id="view-register" class="p-6 sm:p-8 hidden">
+        <form onsubmit="handleRegisterSubmit(event)" class="space-y-4">
+          <div>
+            <label class="block text-xs font-bold text-slate-700 mb-1.5">Select Primary Business Category *</label>
+            <div class="grid grid-cols-3 gap-2">
+              <label class="border border-slate-200 p-2.5 rounded-xl text-center cursor-pointer hover:border-blue-500 transition has-[:checked]:border-blue-600 has-[:checked]:bg-blue-50/50">
+                <input type="radio" name="businessCategory" value="importer" checked class="hidden"/>
+                <i class="fa-solid fa-ship text-blue-600 block text-base mb-1"></i>
+                <span class="text-[11px] font-bold block leading-tight text-slate-800">Importer</span>
+              </label>
+
+              <label class="border border-slate-200 p-2.5 rounded-xl text-center cursor-pointer hover:border-amber-500 transition has-[:checked]:border-amber-600 has-[:checked]:bg-amber-50/50">
+                <input type="radio" name="businessCategory" value="manufacturer" class="hidden"/>
+                <i class="fa-solid fa-industry text-amber-600 block text-base mb-1"></i>
+                <span class="text-[11px] font-bold block leading-tight text-slate-800">Recycler</span>
+              </label>
+
+              <label class="border border-slate-200 p-2.5 rounded-xl text-center cursor-pointer hover:border-purple-500 transition has-[:checked]:border-purple-600 has-[:checked]:bg-purple-50/50">
+                <input type="radio" name="businessCategory" value="trading" class="hidden"/>
+                <i class="fa-solid fa-handshake text-purple-600 block text-base mb-1"></i>
+                <span class="text-[11px] font-bold block leading-tight text-slate-800">Trader</span>
+              </label>
+            </div>
+          </div>
+
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+            <div>
+              <label class="block text-xs font-bold text-slate-700 mb-1">Company Name *</label>
+              <input type="text" id="regCompanyName" required placeholder="e.g. Apex Global Exim Pvt Ltd" class="w-full px-3 py-2 text-xs border border-slate-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:outline-none"/>
+            </div>
+            <div>
+              <label class="block text-xs font-bold text-slate-700 mb-1">GSTIN (India) or Global Tax ID *</label>
+              <input type="text" id="regGstin" required maxlength="15" placeholder="e.g. 24AAACA5566G1Z2" class="w-full px-3 py-2 text-xs border border-slate-300 rounded-xl font-mono uppercase focus:ring-2 focus:ring-blue-500 focus:outline-none"/>
+            </div>
+          </div>
+
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+            <div>
+              <label class="block text-xs font-bold text-slate-700 mb-1">Contact Person *</label>
+              <input type="text" id="regContactPerson" required placeholder="Full Name" class="w-full px-3 py-2 text-xs border border-slate-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:outline-none"/>
+            </div>
+            <div>
+              <label class="block text-xs font-bold text-slate-700 mb-1">Mobile / WhatsApp *</label>
+              <input type="tel" id="regMobile" required placeholder="Phone Number" class="w-full px-3 py-2 text-xs border border-slate-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:outline-none"/>
+            </div>
+          </div>
+
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 bg-slate-50 p-3 rounded-2xl border border-slate-200">
+            <div>
+              <label class="block text-xs font-bold text-slate-700 mb-1">Choose Username *</label>
+              <input type="text" id="regUsername" required placeholder="Username" class="w-full px-3 py-2 text-xs border border-slate-300 rounded-xl bg-white focus:ring-2 focus:ring-blue-500 focus:outline-none"/>
+            </div>
+            <div>
+              <label class="block text-xs font-bold text-slate-700 mb-1">Create Password *</label>
+              <input type="password" id="regPassword" required placeholder="••••••••" class="w-full px-3 py-2 text-xs border border-slate-300 rounded-xl bg-white focus:ring-2 focus:ring-blue-500 focus:outline-none"/>
+            </div>
+          </div>
+
+          <button type="submit" class="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-3 rounded-xl text-xs sm:text-sm transition shadow-lg shadow-emerald-600/20 flex items-center justify-center gap-2">
+            <i class="fa-solid fa-user-check text-xs"></i>
+            <span>Register & Unlock Authorized Portal</span>
+          </button>
+        </form>
+
+        <div class="mt-4 pt-3 border-t border-slate-100 text-center text-xs text-slate-500">
+          <span>Already registered?</span>
+          <button type="button" onclick="switchAuthTab('login')" class="ml-1 text-blue-600 font-bold hover:underline">
+            Sign In Here
+          </button>
+        </div>
+      </div>
+
+      <!-- TAB 3: FORGOT PASSWORD -->
+      <div id="view-forgot" class="p-6 sm:p-8 hidden">
+        <div class="text-center mb-5">
+          <div class="inline-flex items-center justify-center w-11 h-11 bg-amber-100 text-amber-600 rounded-2xl mb-2 text-lg">
+            <i class="fa-solid fa-key"></i>
+          </div>
+          <h2 class="text-lg font-bold text-slate-900">Password Recovery</h2>
+          <p class="text-xs text-slate-500 mt-1">Enter your registered username or mobile number to receive reset instructions.</p>
+        </div>
+
+        <form onsubmit="handleForgotSubmit(event)" class="space-y-4">
+          <div>
+            <label class="block text-xs font-bold text-slate-700 mb-1">Registered Username or Mobile</label>
+            <input type="text" id="forgotIdentifier" required placeholder="Enter username or mobile" class="w-full px-3.5 py-2.5 text-xs sm:text-sm border border-slate-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:outline-none"/>
+          </div>
+
+          <button type="submit" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-2.5 rounded-xl text-xs sm:text-sm transition shadow">
+            Send Reset Code
+          </button>
+        </form>
+
+        <div class="text-center mt-5">
+          <button type="button" onclick="switchAuthTab('login')" class="text-xs text-slate-500 hover:text-blue-600 font-bold flex items-center justify-center mx-auto gap-1">
+            <i class="fa-solid fa-arrow-left text-[10px]"></i>
+            <span>Back to Sign In</span>
+          </button>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ================= 3. SCREEN 2: MASTER HUB SCREEN (ROLE LOCKED) ================= -->
+  <div id="mainHubScreen" class="hidden flex-grow flex flex-col">
+    <header class="bg-white border-b border-slate-200 px-6 py-4 shadow-sm flex items-center justify-between">
+      <div class="flex items-center space-x-3">
+        <div class="w-10 h-10 bg-blue-600 text-white rounded-xl flex items-center justify-center font-bold text-lg shadow">
+          <i class="fa-solid fa-earth-americas"></i>
+        </div>
+        <div>
+          <h1 class="text-lg font-bold text-slate-900">Global Tyre Trade Master Hub</h1>
+          <p class="text-xs text-slate-500" id="hubUserStatusSubtext">Account authorization active</p>
+        </div>
+      </div>
+      <button onclick="handleLogout()" class="text-xs font-bold bg-slate-100 hover:bg-slate-200 text-slate-700 px-4 py-2 rounded-xl transition flex items-center gap-1.5">
+        <i class="fa-solid fa-right-from-bracket text-slate-500"></i> Logout
+      </button>
+    </header>
+
+    <main class="max-w-5xl mx-auto px-4 py-10 w-full flex-grow flex flex-col justify-center">
+      <div class="text-center mb-8">
+        <span class="text-[11px] font-extrabold uppercase tracking-wider bg-blue-100 text-blue-800 px-3 py-1 rounded-full" id="hubActiveRoleBadge">
+          Authorized Role: Importer
+        </span>
+        <h2 class="text-2xl sm:text-3xl font-black text-slate-900 mt-2">Select Your Business Segment Portal</h2>
+        <p class="text-sm text-slate-500 mt-2 max-w-xl mx-auto">
+          Security Policy: Your registered business category unlocks your authorized dashboard. Other segment portals remain locked.
+        </p>
+      </div>
+
+      <!-- 3 Portal Cards with Dynamic Lock Status -->
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div id="hubCard-importer" class="relative bg-white rounded-3xl p-6 shadow-sm border-2 transition-all flex flex-col justify-between">
+          <div id="hubCardContent-importer"></div>
+        </div>
+
+        <div id="hubCard-manufacturer" class="relative bg-white rounded-3xl p-6 shadow-sm border-2 transition-all flex flex-col justify-between">
+          <div id="hubCardContent-manufacturer"></div>
+        </div>
+
+        <div id="hubCard-trading" class="relative bg-white rounded-3xl p-6 shadow-sm border-2 transition-all flex flex-col justify-between">
+          <div id="hubCardContent-trading"></div>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <!-- ================= 4. SCREEN 3A: STEP 1 - IMPORTERS PORTAL ================= -->
+  <div id="importerPortalScreen" class="hidden flex-grow flex flex-col">
+    
+    <!-- Top Navbar with Standardized Name: Importers Portal -->
+    <header class="bg-slate-900 text-white shadow-md sticky top-8 z-30">
+      <div class="max-w-7xl mx-auto px-4 py-3 flex flex-col md:flex-row justify-between items-center gap-3">
+        
+        <!-- Left: Hamburger Button + Title -->
+        <div class="flex items-center space-x-3 w-full md:w-auto justify-between md:justify-start">
+          <div class="flex items-center space-x-3">
+            <button onclick="toggleImporterDrawer(true)" class="w-10 h-10 bg-slate-800 hover:bg-blue-600 rounded-xl flex items-center justify-center text-lg border border-slate-700 transition shadow shrink-0" title="Open Dashboard Menu">
+              <i class="fa-solid fa-bars text-blue-400 hover:text-white"></i>
+            </button>
+            <div class="w-10 h-10 bg-blue-600 text-white rounded-xl flex items-center justify-center text-xl shadow shrink-0">
+              <i class="fa-solid fa-ship"></i>
+            </div>
+            <div>
+              <h1 class="text-base sm:text-lg font-bold tracking-tight text-white">Importers Portal</h1>
+              <p class="text-[11px] sm:text-xs text-blue-200">Global Scrap Tyre Port Cargo & Verified CFS Yard Exchange</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Center: Upload Stock Button (Min 1, Max 9 Photos) -->
+        <div class="flex items-center justify-center w-full md:w-auto">
+          <button onclick="openImporterStockModal()" class="bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-black px-5 py-2.5 rounded-xl transition flex items-center gap-2 shadow-lg border border-emerald-500 transform hover:scale-105">
+            <i class="fa-solid fa-camera text-sm"></i>
+            <span>+ Upload Port Stock (1-9 Photos)</span>
+          </button>
+        </div>
+
+        <!-- Right: Back to Hub & Logout -->
+        <div class="flex items-center gap-2 w-full md:w-auto justify-end">
+          <button onclick="backToHub()" class="bg-slate-800 hover:bg-slate-700 text-blue-300 text-xs font-bold px-3.5 py-2 rounded-xl border border-slate-700 transition flex items-center gap-1.5 shadow">
+            <i class="fa-solid fa-arrow-left text-xs"></i>
+            <span>Back to Hub</span>
+          </button>
+          <button onclick="handleLogout()" class="bg-red-950/80 hover:bg-red-900 text-red-300 border border-red-800 text-xs font-bold px-3.5 py-2 rounded-xl transition flex items-center gap-1.5 shadow">
+            <i class="fa-solid fa-right-from-bracket text-xs"></i>
+            <span>Logout</span>
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <!-- Main Workspace with Dual Capability: 1. Purchase Cargo (Buy) vs 2. Sell Port Stock (List) -->
+    <main class="max-w-7xl mx-auto px-4 py-6 w-full flex-grow space-y-5">
+      
+      <!-- Center Toggle: 1. Purchase Cargo vs 2. Sell Port Stock -->
+      <div class="flex flex-col items-center justify-center">
+        <div class="bg-white p-2 rounded-2xl border-2 border-blue-500 shadow-md flex flex-col sm:flex-row gap-2 max-w-2xl w-full">
+          <!-- Option 1: Purchase / Browse Cargo -->
+          <button onclick="switchImporterPortalMode('purchase')" id="impModeBtn-purchase" class="flex-1 py-3 px-4 rounded-xl font-black text-xs sm:text-sm flex items-center justify-center gap-2 transition shadow-sm bg-blue-600 text-white">
+            <i class="fa-solid fa-cart-shopping text-base"></i>
+            <span>1. Purchase Cargo (Global Port Shipments)</span>
+          </button>
+
+          <!-- Option 2: Sell Port Stock -->
+          <button onclick="switchImporterPortalMode('sale')" id="impModeBtn-sale" class="flex-1 py-3 px-4 rounded-xl font-bold text-xs sm:text-sm flex items-center justify-center gap-2 transition text-slate-700 hover:bg-blue-50">
+            <i class="fa-solid fa-boxes-stacked text-base text-blue-600"></i>
+            <span>2. Sell Stock (India Importer & Exporter Feed)</span>
+          </button>
+        </div>
+
+        <p class="text-[11px] text-slate-500 mt-2 font-medium text-center" id="importerModeDescription">
+          🚢 Browse verified scrap tyre container shipments ready at Mundra, Kandla, Nhava Sheva & Pipavav ports:
+        </p>
+      </div>
+
+      <!-- VIEW 1: PURCHASE PORT CARGO (GLOBAL ARRIVAL SHIPMENTS TO BUY) -->
+      <div id="impView-purchase" class="space-y-4">
+        <div class="bg-white p-4 rounded-2xl border border-slate-200 shadow-sm flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
+          <div>
+            <h2 class="text-base font-black text-slate-900 flex items-center gap-2">
+              <i class="fa-solid fa-globe text-blue-600"></i> Country-Wise Verified Port Cargo Lots
+            </h2>
+            <p class="text-xs text-slate-500 mt-0.5">
+              Direct B2B deals with India Importers & Overseas Exporters with multi-photo inspection (1-9 images):
+            </p>
+          </div>
+
+          <div class="flex flex-wrap items-center gap-2.5 w-full md:w-auto">
+            <div>
+              <select id="filterImpCountry" onchange="applyImporterFilter()" class="border border-slate-300 rounded-xl px-2.5 py-1.5 text-xs bg-slate-50 font-bold focus:outline-none">
+                <option value="ALL">All Seller Countries</option>
+                <option value="India">🇮🇳 India (Indian Importers)</option>
+                <option value="USA">🇺🇸 USA (Overseas Exporters)</option>
+                <option value="Germany">🇩🇪 Germany (Europe Exporters)</option>
+                <option value="UK">🇬🇧 United Kingdom</option>
+                <option value="UAE">🇦🇪 United Arab Emirates</option>
+              </select>
+            </div>
+            <div>
+              <select id="filterImpPort" onchange="applyImporterFilter()" class="border border-blue-300 rounded-xl px-2.5 py-1.5 text-xs bg-blue-50/70 font-bold focus:outline-none text-blue-950">
+                <option value="ALL">All Indian Discharge Ports</option>
+                <option value="Mundra">🇮🇳 Mundra Port CFS (Gujarat)</option>
+                <option value="Kandla">🇮🇳 Kandla Port Yard (Gujarat)</option>
+                <option value="Nhava Sheva">🇮🇳 Nhava Sheva (JNPT Mumbai)</option>
+                <option value="Pipavav">🇮🇳 Pipavav Port (Gujarat)</option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <div id="importerPurchaseLotsGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5"></div>
+      </div>
+
+      <!-- VIEW 2: SELL PORT STOCK (CLIENT'S OWN ACTIVE LISTINGS) -->
+      <div id="impView-sale" class="hidden space-y-4">
+        <div class="bg-white p-4 rounded-2xl border border-slate-200 shadow-sm flex flex-col sm:flex-row items-center justify-between gap-4">
+          <div>
+            <div class="flex items-center gap-2">
+              <h3 class="text-base font-black text-slate-900">
+                <i class="fa-solid fa-boxes-packing text-blue-600 mr-1"></i> My Active Port Listings for Sale
+              </h3>
+              <span class="bg-blue-100 text-blue-800 text-[10px] font-mono font-bold px-2 py-0.5 rounded border border-blue-300">
+                Seller ID: #IMP-7491 (Private Feed)
+              </span>
+            </div>
+            <p class="text-xs text-slate-500 mt-0.5">
+              Indian Importer & Exporter inventory listed for verified buyers on the trade network.
+            </p>
+          </div>
+
+          <button onclick="openImporterStockModal()" class="bg-blue-600 hover:bg-blue-700 text-white text-xs font-black px-4 py-2.5 rounded-xl transition flex items-center gap-2 shadow-md shrink-0">
+            <i class="fa-solid fa-camera text-sm"></i>
+            <span>+ Add New Port Listing (1-9 Photos)</span>
+          </button>
+        </div>
+
+        <div id="importerMySaleLotsGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5"></div>
+      </div>
+
+    </main>
+
+  </div>
+
+  <!-- ================= 5. SCREEN 3B: STEP 2 - RECYCLERS PORTAL ================= -->
+  <div id="mfgPortalScreen" class="hidden flex-grow flex flex-col">
+    
+    <!-- Top Header Navbar with Standardized Name: Recyclers Portal -->
+    <header class="bg-amber-950 text-white shadow-md sticky top-8 z-30">
+      <div class="max-w-7xl mx-auto px-4 py-3 flex flex-col md:flex-row justify-between items-center gap-3">
+        
+        <!-- Left: Hamburger Button + Title -->
+        <div class="flex items-center space-x-3 w-full md:w-auto justify-between md:justify-start">
+          <div class="flex items-center space-x-3">
+            <button onclick="toggleMfgDrawer(true)" class="w-10 h-10 bg-amber-900 hover:bg-amber-800 rounded-xl flex items-center justify-center text-lg border border-amber-800 transition shadow shrink-0" title="Open Dashboard Menu">
+              <i class="fa-solid fa-bars text-amber-300"></i>
+            </button>
+            <div class="w-10 h-10 bg-amber-600 text-white rounded-xl flex items-center justify-center text-xl shadow shrink-0">
+              <i class="fa-solid fa-industry"></i>
+            </div>
+            <div>
+              <h1 class="text-base sm:text-lg font-bold tracking-tight text-white">Recyclers Portal</h1>
+              <p class="text-[11px] sm:text-xs text-amber-200">Carbon Black, Pyrolysis Oil, Crumb Rubber & Wire Plants</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Center: Upload Plant Output -->
+        <div class="flex items-center justify-center w-full md:w-auto">
+          <button onclick="openMfgStockModal()" class="bg-amber-500 hover:bg-amber-600 text-amber-950 text-xs font-black px-5 py-2.5 rounded-xl transition flex items-center gap-2 shadow-lg border border-amber-400 transform hover:scale-105">
+            <i class="fa-solid fa-camera text-sm"></i>
+            <span>+ Upload Plant Output (1-9 Photos)</span>
+          </button>
+        </div>
+
+        <!-- Right: Back to Hub & Logout -->
+        <div class="flex items-center gap-2 w-full md:w-auto justify-end">
+          <button onclick="backToHub()" class="bg-amber-900 hover:bg-amber-800 text-amber-200 text-xs font-bold px-3.5 py-2 rounded-xl border border-amber-800 transition flex items-center gap-1.5 shadow">
+            <i class="fa-solid fa-arrow-left text-xs"></i>
+            <span class="hidden sm:inline">Back to Hub</span>
+          </button>
+          <button onclick="handleLogout()" class="bg-red-950/80 hover:bg-red-900 text-red-300 border border-red-800 text-xs font-bold px-3.5 py-2 rounded-xl transition flex items-center gap-1.5 shadow">
+            <i class="fa-solid fa-right-from-bracket text-xs"></i>
+            <span class="hidden sm:inline">Logout</span>
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <!-- Main Workspace -->
+    <main class="max-w-7xl mx-auto px-4 py-6 w-full flex-grow space-y-5">
+      <div class="flex flex-col items-center justify-center">
+        <div class="bg-white p-2 rounded-2xl border-2 border-amber-500 shadow-md flex flex-col sm:flex-row gap-2 max-w-2xl w-full">
+          <button onclick="switchMfgMode('purchase')" id="mfgModeBtn-purchase" class="flex-1 py-3 px-4 rounded-xl font-black text-xs sm:text-sm flex items-center justify-center gap-2 transition shadow-sm bg-blue-600 text-white">
+            <i class="fa-solid fa-cart-shopping text-base"></i>
+            <span>1. Purchase (Raw Scrap Tyres Input)</span>
+          </button>
+          <button onclick="switchMfgMode('sale')" id="mfgModeBtn-sale" class="flex-1 py-3 px-4 rounded-xl font-bold text-xs sm:text-sm flex items-center justify-center gap-2 transition text-slate-700 hover:bg-amber-50">
+            <i class="fa-solid fa-boxes-stacked text-base text-amber-600"></i>
+            <span>2. Sell (My Factory Finished Stock)</span>
+          </button>
+        </div>
+        <p class="text-[11px] text-slate-500 mt-2 font-medium text-center" id="mfgModeDescription">
+          🏭 Factory raw material (scrap tyres) input procurement feed for pyrolysis and shredding plants:
+        </p>
+      </div>
+
+      <!-- VIEW 1: PURCHASE -->
+      <div id="mfgView-purchase" class="space-y-4">
+        <div class="bg-white p-4 rounded-2xl border border-slate-200 shadow-sm flex flex-col sm:flex-row items-center justify-between gap-3">
+          <div>
+            <h3 class="text-sm sm:text-base font-black text-slate-900 flex items-center gap-2">
+              <i class="fa-solid fa-cart-flatbed text-blue-600"></i> Raw Material Scrap Tyre Lots for Factory Purchase
+            </h3>
+            <p class="text-xs text-slate-500 mt-0.5">Available truckloads ready for immediate factory weighbridge delivery:</p>
+          </div>
+          <span class="text-xs text-slate-600 font-bold" id="mfgRawStockCountBadge">Loading available lots...</span>
+        </div>
+        <div id="mfgPurchaseGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5"></div>
+      </div>
+
+      <!-- VIEW 2: SELL -->
+      <div id="mfgView-sale" class="hidden space-y-4">
+        <div class="bg-white p-4 rounded-2xl border border-slate-200 shadow-sm flex flex-col sm:flex-row items-center justify-between gap-4">
+          <div>
+            <div class="flex items-center gap-2">
+              <h3 class="text-sm sm:text-base font-black text-slate-900">
+                <i class="fa-solid fa-boxes-packing text-amber-600 mr-1"></i> My Active Factory Output for Sale
+              </h3>
+              <span class="bg-amber-100 text-amber-900 text-[10px] font-mono font-bold px-2 py-0.5 rounded border border-amber-300">
+                Plant Code: #MFG-3820 (Private Desk)
+              </span>
+            </div>
+            <p class="text-xs text-emerald-700 font-semibold mt-0.5">
+              <i class="fa-solid fa-shield-halved text-emerald-600"></i> Only your factory's listed products (Carbon, Oil, Wire, Crumb) appear here.
+            </p>
+          </div>
+          <button onclick="openMfgStockModal()" class="bg-amber-600 hover:bg-amber-700 text-white text-xs font-black px-4 py-2.5 rounded-xl transition flex items-center gap-2 shadow-md shrink-0">
+            <i class="fa-solid fa-camera text-sm"></i>
+            <span>+ Add New Plant Product (1-9 Photos)</span>
+          </button>
+        </div>
+
+        <div class="flex items-center justify-between px-1 text-xs">
+          <span class="text-slate-600 font-bold" id="mfgClientStockCount">Loading listed products...</span>
+          <div class="flex items-center gap-2">
+            <span class="text-slate-500 font-medium">Filter Category:</span>
+            <select id="filterMfgClientCategory" onchange="renderMfgSaleFeed(this.value)" class="border border-slate-300 rounded-xl px-2.5 py-1 bg-white text-xs font-bold focus:outline-none">
+              <option value="ALL">All Factory Products</option>
+              <option value="Carbon">Carbon / Recovered Carbon Black (RCB & Char)</option>
+              <option value="Pyrolysis Oil">Tyre Pyrolysis Oil (TPO - Ltr/Kg)</option>
+              <option value="Scrap Tyre Wire">Scrap Tyre Wire (Radial Bead Bales)</option>
+              <option value="Crumb Rubber">Crumb Rubber Granules (30-40 Mesh)</option>
+            </select>
+          </div>
+        </div>
+
+        <div id="mfgSaleGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5"></div>
+      </div>
+    </main>
+  </div>
+
+  <!-- ================= 6. SCREEN 3C: STEP 3 - TRADERS PORTAL ================= -->
+  <div id="tradingPortalScreen" class="hidden flex-grow flex flex-col">
+    
+    <!-- Top Header Navbar with Standardized Name: Traders Portal -->
+    <header class="bg-purple-950 text-white shadow-md sticky top-8 z-30">
+      <div class="max-w-7xl mx-auto px-4 py-3 flex flex-col md:flex-row justify-between items-center gap-3">
+        
+        <!-- Left: Hamburger Button + Title -->
+        <div class="flex items-center space-x-3 w-full md:w-auto justify-between md:justify-start">
+          <div class="flex items-center space-x-3">
+            <button onclick="toggleTradingDrawer(true)" class="w-10 h-10 bg-purple-900 hover:bg-purple-800 rounded-xl flex items-center justify-center text-lg border border-purple-800 transition shadow shrink-0" title="Open Dashboard Menu">
+              <i class="fa-solid fa-bars text-purple-300"></i>
+            </button>
+            <div class="w-10 h-10 bg-purple-600 text-white rounded-xl flex items-center justify-center text-xl shadow shrink-0">
+              <i class="fa-solid fa-handshake"></i>
+            </div>
+            <div>
+              <h1 class="text-base sm:text-lg font-bold tracking-tight text-white">Traders Portal</h1>
+              <p class="text-[11px] sm:text-xs text-purple-200">Cross-Segment Scrap Marketplace & Mandi Trading Desk</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Center: Post Trader Stock Button -->
+        <div class="flex items-center justify-center w-full md:w-auto">
+          <button onclick="openTraderStockModal()" class="bg-purple-600 hover:bg-purple-700 text-white text-xs font-black px-5 py-2.5 rounded-xl transition flex items-center gap-2 shadow-lg border border-purple-400 transform hover:scale-105">
+            <i class="fa-solid fa-camera text-sm"></i>
+            <span>+ Post My Mandi Stock (1-9 Photos)</span>
+          </button>
+        </div>
+
+        <!-- Right: Back to Hub & Logout -->
+        <div class="flex items-center gap-2 w-full md:w-auto justify-end">
+          <button onclick="backToHub()" class="bg-purple-900 hover:bg-purple-800 text-purple-200 text-xs font-bold px-3.5 py-2 rounded-xl border border-purple-800 transition flex items-center gap-1.5 shadow">
+            <i class="fa-solid fa-arrow-left text-xs"></i>
+            <span class="hidden sm:inline">Back to Hub</span>
+          </button>
+          <button onclick="handleLogout()" class="bg-red-950/80 hover:bg-red-900 text-red-300 border border-red-800 text-xs font-bold px-3.5 py-2 rounded-xl transition flex items-center gap-1.5 shadow">
+            <i class="fa-solid fa-right-from-bracket text-xs"></i>
+            <span class="hidden sm:inline">Logout</span>
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <!-- Main Workspace -->
+    <main class="max-w-7xl mx-auto px-4 py-6 w-full flex-grow space-y-5">
+      <div class="flex flex-col items-center justify-center">
+        <div class="bg-white p-2 rounded-2xl border-2 border-purple-500 shadow-md flex flex-wrap gap-2 max-w-5xl w-full">
+          <button onclick="switchTradingDesk('importer_lots')" id="trdDeskBtn-importer_lots" class="flex-1 min-w-[200px] py-2.5 px-3 rounded-xl font-black text-xs flex items-center justify-center gap-2 transition shadow-sm bg-blue-600 text-white">
+            <i class="fa-solid fa-ship text-sm"></i>
+            <span>1. Importers Tyre Lots</span>
+          </button>
+          <button onclick="switchTradingDesk('recycler_demand')" id="trdDeskBtn-recycler_demand" class="flex-1 min-w-[200px] py-2.5 px-3 rounded-xl font-bold text-xs flex items-center justify-center gap-2 transition text-slate-700 hover:bg-amber-50">
+            <i class="fa-solid fa-cart-arrow-down text-sm text-amber-600"></i>
+            <span>2. Recyclers Tyre Demand</span>
+          </button>
+          <button onclick="switchTradingDesk('recycler_finished')" id="trdDeskBtn-recycler_finished" class="flex-1 min-w-[200px] py-2.5 px-3 rounded-xl font-bold text-xs flex items-center justify-center gap-2 transition text-slate-700 hover:bg-emerald-50">
+            <i class="fa-solid fa-oil-can text-sm text-emerald-600"></i>
+            <span>3. Recyclers Output (Oil/Wire)</span>
+          </button>
+          <button onclick="switchTradingDesk('my_mandi_stock')" id="trdDeskBtn-my_mandi_stock" class="flex-1 min-w-[200px] py-2.5 px-3 rounded-xl font-bold text-xs flex items-center justify-center gap-2 transition text-slate-700 hover:bg-purple-50">
+            <i class="fa-solid fa-warehouse text-sm text-purple-600"></i>
+            <span>4. My Mandi Stock (Sale)</span>
+          </button>
+        </div>
+        <p class="text-[11px] text-slate-500 mt-2 font-medium text-center" id="trdDeskDescription">
+          🚢 Option 1 Importers: Verified scrap tyre container shipments arriving at Indian ports:
+        </p>
+      </div>
+
+      <div id="trdView-importer_lots" class="space-y-4">
+        <div id="trdImporterLotsGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5"></div>
+      </div>
+      <div id="trdView-recycler_demand" class="hidden space-y-4">
+        <div id="trdRecyclerDemandGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5"></div>
+      </div>
+      <div id="trdView-recycler_finished" class="hidden space-y-4">
+        <div id="trdRecyclerFinishedGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5"></div>
+      </div>
+      <div id="trdView-my_mandi_stock" class="hidden space-y-4">
+        <div id="trdMyStockGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5"></div>
+      </div>
+    </main>
+  </div>
+
+  <!-- ================= 7. HAMBURGER DRAWER FOR IMPORTERS ================= -->
+  <div id="impDrawerBackdrop" onclick="toggleImporterDrawer(false)" class="fixed inset-0 bg-black bg-opacity-60 z-50 transition-opacity duration-300 hidden"></div>
+  <div id="impSideDrawer" class="fixed top-0 left-0 h-full w-84 sm:w-96 bg-white z-50 shadow-2xl transform -translate-x-full transition-transform duration-300 ease-in-out flex flex-col justify-between overflow-y-auto">
+    <div class="p-5 border-b border-slate-100">
+      <div class="flex justify-between items-center mb-4">
+        <div class="flex items-center gap-2.5">
+          <div class="w-8 h-8 bg-purple-600 text-white rounded-lg flex items-center justify-center text-sm shadow">
+            <i class="fa-solid fa-bars-staggered"></i>
+          </div>
+          <h2 class="text-lg font-black text-slate-900">Importer Dashboard Menu</h2>
+        </div>
+        <button onclick="toggleImporterDrawer(false)" class="w-8 h-8 rounded-lg bg-slate-100 hover:bg-slate-200 text-slate-500 flex items-center justify-center text-sm transition">
+          <i class="fa-solid fa-xmark"></i>
+        </button>
+      </div>
+
+      <div class="bg-gradient-to-br from-[#1e1b4b] via-[#240046] to-[#3c096c] text-white p-4 rounded-2xl flex items-center justify-between shadow-md">
+        <div>
+          <span class="text-[9px] text-purple-300 uppercase tracking-wider font-bold block">YOUR BUSINESS CODE</span>
+          <strong class="font-mono text-amber-300 text-base font-black tracking-wide">#IMP-7491 (🇮🇳 India Port Desk)</strong>
+        </div>
+        <span class="bg-[#10b981] text-white text-[10px] font-black px-2.5 py-1 rounded-full shadow">
+          GST / IEC Active
+        </span>
+      </div>
+    </div>
+
+    <div class="p-5 space-y-3 flex-grow">
+      <div class="bg-blue-50/80 border border-blue-200 rounded-2xl p-3 flex items-center justify-between cursor-pointer hover:bg-blue-100/70 transition shadow-sm" onclick="alert('Viewing Purchase Orders...')">
+        <div class="flex items-center gap-3">
+          <i class="fa-solid fa-cart-shopping text-blue-600 text-sm"></i>
+          <span class="text-xs font-bold text-slate-800">1. Purchase Orders (Port Cargo PO)</span>
+        </div>
+        <div class="bg-blue-600 text-white text-[10px] font-bold px-2.5 py-1 rounded-full text-center leading-tight shadow shrink-0">
+          3 Orders
+        </div>
+      </div>
+
+      <div class="bg-purple-50/80 border border-purple-200 rounded-2xl p-3 flex items-center justify-between cursor-pointer hover:bg-purple-100/70 transition shadow-sm" onclick="alert('Viewing Sales Orders...')">
+        <div class="flex items-center gap-3">
+          <i class="fa-solid fa-handshake text-purple-600 text-sm"></i>
+          <span class="text-xs font-bold text-slate-800">2. Sales Orders (Port Stock SO)</span>
+        </div>
+        <div class="bg-purple-600 text-white text-[10px] font-bold px-2.5 py-1 rounded-full text-center leading-tight shadow shrink-0">
+          2 Active
+        </div>
+      </div>
+
+      <div class="bg-emerald-50/80 border border-emerald-200 rounded-2xl p-3 flex items-center justify-between cursor-pointer hover:bg-emerald-100/70 transition shadow-sm" onclick="alert('Viewing Customs Ledger...')">
+        <div class="flex items-center gap-3">
+          <i class="fa-solid fa-wallet text-emerald-600 text-sm"></i>
+          <span class="text-xs font-bold text-slate-800">3. Payments & Customs Ledger</span>
+        </div>
+        <div class="bg-emerald-600 text-white text-[10px] font-bold px-2.5 py-1 rounded-full text-center leading-tight shadow shrink-0">
+          Bank
+        </div>
+      </div>
+
+      <div class="pt-3 pb-1">
+        <span class="text-[10px] text-slate-400 font-extrabold uppercase tracking-wider block">
+          GST & IEC AUTO-FETCHED PORT DETAILS
+        </span>
+      </div>
+
+      <div class="border border-slate-200 rounded-2xl overflow-hidden bg-white shadow-sm">
+        <button onclick="toggleImpAccordion('imp-acc-firm')" class="w-full text-left px-3.5 py-3 text-xs font-bold flex items-center justify-between hover:bg-slate-50 transition text-slate-800">
+          <span class="flex items-center gap-2.5">
+            <i class="fa-solid fa-building text-blue-600 w-4 text-center"></i>
+            <span>Firm Name & Port Entity Details</span>
+          </span>
+          <i class="fa-solid fa-chevron-down text-[10px] text-slate-400 transition" id="icon-imp-acc-firm"></i>
+        </button>
+        <div id="imp-acc-firm" class="hidden p-3.5 bg-slate-50 text-xs border-t border-slate-100 space-y-1.5">
+          <div><span class="text-[10px] text-slate-400 uppercase font-semibold block">Registered Entity:</span><strong class="text-slate-900">Apex Global Exim Pvt Ltd</strong></div>
+          <div><span class="text-[10px] text-slate-400 uppercase font-semibold block">Registration Status:</span><span class="text-emerald-700 font-bold">✓ Direct Customs & GSTN Auto-Fetched</span></div>
+        </div>
+      </div>
+
+      <div class="border border-slate-200 rounded-2xl overflow-hidden bg-white shadow-sm">
+        <button onclick="toggleImpAccordion('imp-acc-address')" class="w-full text-left px-3.5 py-3 text-xs font-bold flex items-center justify-between hover:bg-slate-50 transition text-slate-800">
+          <span class="flex items-center gap-2.5">
+            <i class="fa-solid fa-location-dot text-red-500 w-4 text-center"></i>
+            <span>Delivery Ports & CFS Yards</span>
+          </span>
+          <i class="fa-solid fa-chevron-down text-[10px] text-slate-400 transition" id="icon-imp-acc-address"></i>
+        </button>
+        <div id="imp-acc-address" class="hidden p-3.5 bg-slate-50 text-xs border-t border-slate-100 space-y-1.5">
+          <div><span class="text-[10px] text-blue-900 uppercase font-bold block">Primary CFS Yard:</span><strong class="text-slate-900">Plot 14-15, Adani CFS Gate 2</strong><p class="text-slate-600 text-[11px]">Mundra Port CFS, Kutch, Gujarat - 370421</p></div>
+          <div class="pt-1 text-[11px] text-slate-600">Secondary Port: <strong>Kandla Free Trade Zone (KFTZ)</strong></div>
+        </div>
+      </div>
+
+      <div class="border border-slate-200 rounded-2xl overflow-hidden bg-white shadow-sm">
+        <button onclick="toggleImpAccordion('imp-acc-gst')" class="w-full text-left px-3.5 py-3 text-xs font-bold flex items-center justify-between hover:bg-slate-50 transition text-slate-800">
+          <span class="flex items-center gap-2.5">
+            <i class="fa-solid fa-file-invoice text-blue-600 w-4 text-center"></i>
+            <span>GSTIN, IEC & Port Customs Code</span>
+          </span>
+          <i class="fa-solid fa-chevron-down text-[10px] text-slate-400 transition" id="icon-imp-acc-gst"></i>
+        </button>
+        <div id="imp-acc-gst" class="hidden p-3.5 bg-slate-50 text-xs border-t border-slate-100 space-y-1.5">
+          <div><span class="text-[10px] text-slate-400 uppercase font-semibold block">GSTIN Number:</span><strong class="font-mono text-emerald-800 font-bold">24AAACA5566G1Z2</strong></div>
+          <div><span class="text-[10px] text-slate-400 uppercase font-semibold block">Import Export Code (IEC):</span><strong class="font-mono text-blue-800 font-bold">0512099318</strong></div>
+          <div><span class="text-[10px] text-slate-400 uppercase font-semibold block">Customs Port Code:</span><span class="font-mono text-slate-700">INMUN1 (Mundra Port CFS)</span></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="p-5 border-t border-slate-200 bg-white">
+      <div class="flex items-center gap-1.5 text-emerald-700 font-bold text-xs mb-1">
+        <i class="fa-solid fa-shield-halved text-emerald-600"></i>
+        <span>100% Identity Masked</span>
+      </div>
+      <p class="text-[11px] text-slate-500 leading-relaxed">
+        Corporate contact information remains strictly confidential. The trade exchange identifies you only by: <strong>#IMP-7491</strong>.
+      </p>
+    </div>
+  </div>
+
+  <!-- ================= 8. HAMBURGER DRAWER FOR RECYCLERS ================= -->
+  <div id="mfgDrawerBackdrop" onclick="toggleMfgDrawer(false)" class="fixed inset-0 bg-black bg-opacity-60 z-50 transition-opacity duration-300 hidden"></div>
+  <div id="mfgSideDrawer" class="fixed top-0 left-0 h-full w-84 sm:w-96 bg-white z-50 shadow-2xl transform -translate-x-full transition-transform duration-300 ease-in-out flex flex-col justify-between overflow-y-auto">
+    <div class="p-5 border-b border-slate-100">
+      <div class="flex justify-between items-center mb-4">
+        <div class="flex items-center gap-2.5">
+          <div class="w-8 h-8 bg-purple-600 text-white rounded-lg flex items-center justify-center text-sm shadow">
+            <i class="fa-solid fa-bars-staggered"></i>
+          </div>
+          <h2 class="text-lg font-black text-slate-900">Recycler Dashboard Menu</h2>
+        </div>
+        <button onclick="toggleMfgDrawer(false)" class="w-8 h-8 rounded-lg bg-slate-100 hover:bg-slate-200 text-slate-500 flex items-center justify-center text-sm transition">
+          <i class="fa-solid fa-xmark"></i>
+        </button>
+      </div>
+
+      <div class="bg-gradient-to-br from-[#1e1b4b] via-[#240046] to-[#3c096c] text-white p-4 rounded-2xl flex items-center justify-between shadow-md">
+        <div>
+          <span class="text-[9px] text-purple-300 uppercase tracking-wider font-bold block">YOUR PLANT CODE</span>
+          <strong class="font-mono text-amber-300 text-base font-black tracking-wide">#MFG-3820 (🇮🇳 Haryana Desk)</strong>
+        </div>
+        <span class="bg-[#10b981] text-white text-[10px] font-black px-2.5 py-1 rounded-full shadow">
+          GST Active
+        </span>
+      </div>
+    </div>
+
+    <div class="p-5 space-y-3 flex-grow">
+      <div class="bg-blue-50/80 border border-blue-200 rounded-2xl p-3 flex items-center justify-between cursor-pointer hover:bg-blue-100/70 transition shadow-sm" onclick="alert('Viewing Raw Tyre PO...')">
+        <div class="flex items-center gap-3">
+          <i class="fa-solid fa-truck-ramp-box text-blue-600 text-sm"></i>
+          <span class="text-xs font-bold text-slate-800">1. Raw Material Purchase (Tyre Scrap PO)</span>
+        </div>
+        <div class="bg-blue-600 text-white text-[10px] font-bold px-2.5 py-1 rounded-full text-center leading-tight shadow shrink-0">
+          2 Orders
+        </div>
+      </div>
+
+      <div class="bg-purple-50/80 border border-purple-200 rounded-2xl p-3 flex items-center justify-between cursor-pointer hover:bg-purple-100/70 transition shadow-sm" onclick="alert('Viewing Plant Sales Orders...')">
+        <div class="flex items-center gap-3">
+          <i class="fa-solid fa-handshake text-purple-600 text-sm"></i>
+          <span class="text-xs font-bold text-slate-800">2. Plant Sales Orders (Finished Goods SO)</span>
+        </div>
+        <div class="bg-purple-600 text-white text-[10px] font-bold px-2.5 py-1 rounded-full text-center leading-tight shadow shrink-0">
+          3 Active
+        </div>
+      </div>
+
+      <div class="bg-emerald-50/80 border border-emerald-200 rounded-2xl p-3 flex items-center justify-between cursor-pointer hover:bg-emerald-100/70 transition shadow-sm" onclick="alert('Viewing Tanker UTR Ledger...')">
+        <div class="flex items-center gap-3">
+          <i class="fa-solid fa-wallet text-emerald-600 text-sm"></i>
+          <span class="text-xs font-bold text-slate-800">3. Payments & Tanker UTR Ledger</span>
+        </div>
+        <div class="bg-emerald-600 text-white text-[10px] font-bold px-2.5 py-1 rounded-full text-center leading-tight shadow shrink-0">
+          Bank
+        </div>
+      </div>
+
+      <div class="pt-3 pb-1">
+        <span class="text-[10px] text-slate-400 font-extrabold uppercase tracking-wider block">
+          GST AUTO-FETCHED PLANT DETAILS
+        </span>
+      </div>
+
+      <div class="border border-slate-200 rounded-2xl overflow-hidden bg-white shadow-sm">
+        <button onclick="toggleMfgAccordion('mfg-acc-firm')" class="w-full text-left px-3.5 py-3 text-xs font-bold flex items-center justify-between hover:bg-slate-50 transition text-slate-800">
+          <span class="flex items-center gap-2.5">
+            <i class="fa-solid fa-industry text-amber-600 w-4 text-center"></i>
+            <span>Plant Name & Business Entity</span>
+          </span>
+          <i class="fa-solid fa-chevron-down text-[10px] text-slate-400 transition" id="icon-mfg-acc-firm"></i>
+        </button>
+        <div id="mfg-acc-firm" class="hidden p-3.5 bg-slate-50 text-xs border-t border-slate-100 space-y-1.5">
+          <div><span class="text-[10px] text-slate-400 uppercase font-semibold block">Trade Name:</span><strong class="text-slate-900">Endure Recyclers & Pyrolysis Refinery</strong></div>
+          <div><span class="text-[10px] text-slate-400 uppercase font-semibold block">Legal Entity:</span><span class="text-slate-700">Endure Waste Management Private Limited</span></div>
+          <div><span class="text-[10px] text-slate-400 uppercase font-semibold block">Verification Source:</span><span class="text-emerald-700 font-bold">✓ Direct GSTN Auto-Fetched (No NOC Needed)</span></div>
+        </div>
+      </div>
+
+      <div class="border border-slate-200 rounded-2xl overflow-hidden bg-white shadow-sm">
+        <button onclick="toggleMfgAccordion('mfg-acc-address')" class="w-full text-left px-3.5 py-3 text-xs font-bold flex items-center justify-between hover:bg-slate-50 transition text-slate-800">
+          <span class="flex items-center gap-2.5">
+            <i class="fa-solid fa-location-dot text-red-500 w-4 text-center"></i>
+            <span>Factory Site & Weighbridge Address</span>
+          </span>
+          <i class="fa-solid fa-chevron-down text-[10px] text-slate-400 transition" id="icon-mfg-acc-address"></i>
+        </button>
+        <div id="mfg-acc-address" class="hidden p-3.5 bg-slate-50 text-xs border-t border-slate-100 space-y-1.5">
+          <div><span class="text-[10px] text-amber-900 uppercase font-bold block">GST Principal Plant Address:</span><strong class="text-slate-900 block">Plot No. 38A, Industrial Development Area, Sector 27-28</strong><p class="text-slate-600 text-[11px]">Hisar Industrial Estate, Haryana - 125001</p></div>
+          <div class="pt-1 text-[11px] text-slate-600">On-Site Facility: <strong>100 MT Electronic Weighbridge (Kanta)</strong></div>
+        </div>
+      </div>
+
+      <div class="border border-slate-200 rounded-2xl overflow-hidden bg-white shadow-sm">
+        <button onclick="toggleMfgAccordion('mfg-acc-gst')" class="w-full text-left px-3.5 py-3 text-xs font-bold flex items-center justify-between hover:bg-slate-50 transition text-slate-800">
+          <span class="flex items-center gap-2.5">
+            <i class="fa-solid fa-file-invoice text-blue-600 w-4 text-center"></i>
+            <span>GSTIN Number & Tax Status</span>
+          </span>
+          <i class="fa-solid fa-chevron-down text-[10px] text-slate-400 transition" id="icon-mfg-acc-gst"></i>
+        </button>
+        <div id="mfg-acc-gst" class="hidden p-3.5 bg-slate-50 text-xs border-t border-slate-100 space-y-1.5">
+          <div><span class="text-[10px] text-slate-400 uppercase font-semibold block">GSTIN Number:</span><strong class="font-mono text-emerald-800 font-bold">06AAAFE8821K1Z3</strong><span class="text-[10px] text-emerald-700 block mt-0.5">State Code: 06 (Haryana) • Active Regular Taxpayer</span></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="p-5 border-t border-slate-200 bg-white">
+      <div class="flex items-center gap-1.5 text-emerald-700 font-bold text-xs mb-1">
+        <i class="fa-solid fa-shield-halved text-emerald-600"></i>
+        <span>100% Identity Masked</span>
+      </div>
+      <p class="text-[11px] text-slate-500 leading-relaxed">
+        Personal details remain strictly confidential. The trade exchange identifies your plant solely by: <strong>#MFG-3820</strong>.
+      </p>
+    </div>
+  </div>
+
+  <!-- ================= 9. HAMBURGER DRAWER FOR TRADERS ================= -->
+  <div id="trdDrawerBackdrop" onclick="toggleTradingDrawer(false)" class="fixed inset-0 bg-black bg-opacity-60 z-50 transition-opacity duration-300 hidden"></div>
+  <div id="trdSideDrawer" class="fixed top-0 left-0 h-full w-84 sm:w-96 bg-white z-50 shadow-2xl transform -translate-x-full transition-transform duration-300 ease-in-out flex flex-col justify-between overflow-y-auto">
+    <div class="p-5 border-b border-slate-100">
+      <div class="flex justify-between items-center mb-4">
+        <div class="flex items-center gap-2.5">
+          <div class="w-8 h-8 bg-purple-600 text-white rounded-lg flex items-center justify-center text-sm shadow">
+            <i class="fa-solid fa-bars-staggered"></i>
+          </div>
+          <h2 class="text-lg font-black text-slate-900">Trader Dashboard Menu</h2>
+        </div>
+        <button onclick="toggleTradingDrawer(false)" class="w-8 h-8 rounded-lg bg-slate-100 hover:bg-slate-200 text-slate-500 flex items-center justify-center text-sm transition">
+          <i class="fa-solid fa-xmark"></i>
+        </button>
+      </div>
+
+      <div class="bg-gradient-to-br from-[#240046] to-[#3c096c] text-white p-4 rounded-2xl flex items-center justify-between shadow-md">
+        <div>
+          <span class="text-[9px] text-purple-300 uppercase tracking-wider font-bold block">YOUR TRADING CODE</span>
+          <strong class="font-mono text-amber-300 text-base font-black tracking-wide">#TRD-9104 (🇮🇳 Mandi Desk)</strong>
+        </div>
+        <span class="bg-[#10b981] text-white text-[10px] font-black px-2.5 py-1 rounded-full shadow">
+          GST Active
+        </span>
+      </div>
+    </div>
+
+    <div class="p-5 space-y-3 flex-grow">
+      <div class="bg-blue-50/80 border border-blue-200 rounded-2xl p-3 flex items-center justify-between cursor-pointer hover:bg-blue-100/70 transition shadow-sm" onclick="alert('Viewing Purchase Orders (PO)...')">
+        <div class="flex items-center gap-3">
+          <i class="fa-solid fa-cart-shopping text-blue-600 text-sm"></i>
+          <span class="text-xs font-bold text-slate-800">1. Purchase Orders (Ports & Factories PO)</span>
+        </div>
+        <div class="bg-blue-600 text-white text-[10px] font-bold px-2.5 py-1 rounded-full text-center leading-tight shadow shrink-0">
+          3 Orders
+        </div>
+      </div>
+
+      <div class="bg-purple-50/80 border border-purple-200 rounded-2xl p-3 flex items-center justify-between cursor-pointer hover:bg-purple-100/70 transition shadow-sm" onclick="alert('Viewing Sales Orders (SO)...')">
+        <div class="flex items-center gap-3">
+          <i class="fa-solid fa-handshake text-purple-600 text-sm"></i>
+          <span class="text-xs font-bold text-slate-800">2. Sales Orders (Mandi & Plants SO)</span>
+        </div>
+        <div class="bg-purple-600 text-white text-[10px] font-bold px-2.5 py-1 rounded-full text-center leading-tight shadow shrink-0">
+          2 Active
+        </div>
+      </div>
+
+      <div class="bg-emerald-50/80 border border-emerald-200 rounded-2xl p-3 flex items-center justify-between cursor-pointer hover:bg-emerald-100/70 transition shadow-sm" onclick="alert('Viewing Payments & Mandi Ledger...')">
+        <div class="flex items-center gap-3">
+          <i class="fa-solid fa-wallet text-emerald-600 text-sm"></i>
+          <span class="text-xs font-bold text-slate-800">3. Payments & Mandi UTR Ledger</span>
+        </div>
+        <div class="bg-emerald-600 text-white text-[10px] font-bold px-2.5 py-1 rounded-full text-center leading-tight shadow shrink-0">
+          Bank
+        </div>
+      </div>
+
+      <div class="pt-3 pb-1">
+        <span class="text-[10px] text-slate-400 font-extrabold uppercase tracking-wider block">
+          GST AUTO-FETCHED TRADING DETAILS
+        </span>
+      </div>
+
+      <div class="border border-slate-200 rounded-2xl overflow-hidden bg-white shadow-sm">
+        <button onclick="toggleTrdAccordion('trd-acc-firm')" class="w-full text-left px-3.5 py-3 text-xs font-bold flex items-center justify-between hover:bg-slate-50 transition text-slate-800">
+          <span class="flex items-center gap-2.5">
+            <i class="fa-solid fa-building text-purple-600 w-4 text-center"></i>
+            <span>Firm Name & Mandi Details</span>
+          </span>
+          <i class="fa-solid fa-chevron-down text-[10px] text-slate-400 transition" id="icon-trd-acc-firm"></i>
+        </button>
+        <div id="trd-acc-firm" class="hidden p-3.5 bg-slate-50 text-xs border-t border-slate-100 space-y-1.5">
+          <div><span class="text-[10px] text-slate-400 uppercase font-semibold block">Registered Firm:</span><strong class="text-slate-900">Mahalaxmi Metals & Scrap Traders</strong></div>
+          <div><span class="text-[10px] text-slate-400 uppercase font-semibold block">Business Desk:</span><span class="text-slate-700">Mandi Godown Trader & Supplier</span></div>
+        </div>
+      </div>
+
+      <div class="border border-slate-200 rounded-2xl overflow-hidden bg-white shadow-sm">
+        <button onclick="toggleTrdAccordion('trd-acc-address')" class="w-full text-left px-3.5 py-3 text-xs font-bold flex items-center justify-between hover:bg-slate-50 transition text-slate-800">
+          <span class="flex items-center gap-2.5">
+            <i class="fa-solid fa-location-dot text-red-500 w-4 text-center"></i>
+            <span>Mandi Godown & Weighbridge</span>
+          </span>
+          <i class="fa-solid fa-chevron-down text-[10px] text-slate-400 transition" id="icon-trd-acc-address"></i>
+        </button>
+        <div id="trd-acc-address" class="hidden p-3.5 bg-slate-50 text-xs border-t border-slate-100 space-y-1.5">
+          <div><span class="text-[10px] text-purple-900 uppercase font-bold block">Primary Yard:</span><strong class="text-slate-900">Industrial Focal Point, GT Road</strong><p class="text-slate-600 text-[11px]">Mandi Gobindgarh, Punjab - 147301</p></div>
+        </div>
+      </div>
+
+      <div class="border border-slate-200 rounded-2xl overflow-hidden bg-white shadow-sm">
+        <button onclick="toggleTrdAccordion('trd-acc-gst')" class="w-full text-left px-3.5 py-3 text-xs font-bold flex items-center justify-between hover:bg-slate-50 transition text-slate-800">
+          <span class="flex items-center gap-2.5">
+            <i class="fa-solid fa-file-invoice text-blue-600 w-4 text-center"></i>
+            <span>GSTIN Number & Tax Status</span>
+          </span>
+          <i class="fa-solid fa-chevron-down text-[10px] text-slate-400 transition" id="icon-trd-acc-gst"></i>
+        </button>
+        <div id="trd-acc-gst" class="hidden p-3.5 bg-slate-50 text-xs border-t border-slate-100 space-y-1.5">
+          <div><span class="text-[10px] text-slate-400 uppercase font-semibold block">GSTIN:</span><strong class="font-mono text-emerald-800 font-bold">03EEEGE3344L1Z1</strong><span class="text-[10px] text-emerald-700 block mt-0.5">State: 03 (Punjab) • Active Regular Taxpayer</span></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="p-5 border-t border-slate-200 bg-white">
+      <div class="flex items-center gap-1.5 text-emerald-700 font-bold text-xs mb-1">
+        <i class="fa-solid fa-shield-halved text-emerald-600"></i>
+        <span>100% Identity Masked</span>
+      </div>
+      <p class="text-[11px] text-slate-500 leading-relaxed">
+        Corporate contact information remains strictly confidential. The trade exchange identifies you only by: <strong>#TRD-9104</strong>.
+      </p>
+    </div>
+  </div>
+
+  <!-- ================= 10. MODAL DIALOGS ================= -->
+  <!-- Importer Post Stock Modal -->
+  <div id="impStockModal" class="fixed inset-0 bg-black bg-opacity-70 z-50 flex items-center justify-center hidden p-4">
+    <div class="bg-white rounded-3xl max-w-xl w-full p-6 shadow-2xl relative max-h-[92vh] overflow-y-auto">
+      <button onclick="closeImporterStockModal()" class="absolute top-4 right-4 text-slate-400 hover:text-slate-700 text-lg">✕</button>
+      <div class="mb-4 border-b border-slate-200 pb-3">
+        <span class="text-[10px] font-bold uppercase bg-blue-100 text-blue-800 px-2.5 py-0.5 rounded-full">DIRECT PHOTO UPLOAD</span>
+        <h3 class="text-base font-black text-slate-900 mt-1">Upload Port Cargo Stock</h3>
+        <p class="text-xs text-slate-500">Attach product photos (Min 1, Max 9 Photos) and set CIF/Spot terms.</p>
+      </div>
+
+      <form onsubmit="handleImporterStockSubmit(event)" class="space-y-3.5">
+        <div class="bg-slate-50 p-3.5 rounded-2xl border-2 border-dashed border-blue-300">
+          <label class="block text-xs font-bold text-slate-800 mb-1">Product Images (Direct File Upload: Min 1, Max 9) *</label>
+          <div onclick="document.getElementById('impPhotoFileInput').click()" class="cursor-pointer text-center py-4 px-3 bg-white rounded-xl border border-slate-200 hover:border-blue-500 transition">
+            <i class="fa-solid fa-cloud-arrow-up text-3xl text-blue-600 mb-1"></i>
+            <p class="text-xs font-bold text-slate-800">Select Image Files (Click to Browse)</p>
+            <input type="file" id="impPhotoFileInput" accept="image/*" multiple class="hidden" onchange="handleImpPhotosSelect(event)">
+          </div>
+          <div id="impPhotoPreviewContainer" class="grid grid-cols-3 sm:grid-cols-5 gap-2 mt-3"></div>
+          <div class="flex justify-between items-center text-[10px] text-slate-500 mt-2 px-1">
+            <span id="impPhotoCountNotice" class="font-bold text-blue-900">Uploaded: 0 / 9 Photos</span>
+            <span class="text-amber-700 font-semibold">* Minimum 1, Maximum 9 Photos required</span>
+          </div>
+        </div>
+
+        <div>
+          <label class="block text-xs font-semibold text-slate-700 mb-1">Cargo / Product Name *</label>
+          <input type="text" id="newImpLotName" required placeholder="e.g. Scrap Tyre 3-Cut Bales (Radial TBR)" class="w-full border border-slate-300 rounded-xl p-2.5 text-xs"/>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 bg-blue-50/50 p-3 rounded-2xl border border-blue-200">
+          <div>
+            <label class="block text-xs font-bold text-slate-800 mb-1">Seller Origin Country *</label>
+            <select id="newImpCountry" class="w-full border border-slate-300 rounded-xl p-2 text-xs bg-white font-bold text-slate-900">
+              <option value="India">🇮🇳 India (Indian Importer Port Stock)</option>
+              <option value="USA">🇺🇸 USA (Overseas Exporter Cargo)</option>
+              <option value="Germany">🇩🇪 Germany (European Exporter)</option>
+              <option value="UK">🇬🇧 United Kingdom</option>
+              <option value="UAE">🇦🇪 United Arab Emirates</option>
+            </select>
+          </div>
+          <div>
+            <label class="block text-xs font-bold text-slate-800 mb-1">Seller Designation *</label>
+            <select id="newImpRole" class="w-full border border-slate-300 rounded-xl p-2 text-xs bg-white font-semibold">
+              <option value="Indian Importer">Indian Importer (Selling Ready Port Stock)</option>
+              <option value="Overseas Exporter">Overseas Exporter (Selling CIF Cargo)</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 bg-slate-50 p-3 rounded-2xl border border-slate-200">
+          <div>
+            <label class="block text-xs font-bold text-slate-800 mb-1">Indian Discharge Port *</label>
+            <select id="newImpPort" class="w-full border border-slate-300 rounded-xl p-2 text-xs bg-white font-semibold text-blue-900">
+              <option value="Mundra">🇮🇳 Mundra Port CFS (Gujarat)</option>
+              <option value="Kandla">🇮🇳 Kandla Port Yard (Gujarat)</option>
+              <option value="Nhava Sheva">🇮🇳 Nhava Sheva (JNPT Mumbai)</option>
+              <option value="Pipavav">🇮🇳 Pipavav Port (Gujarat)</option>
+            </select>
+          </div>
+          <div>
+            <label class="block text-xs font-bold text-slate-800 mb-1">CFS Yard / Terminal *</label>
+            <input type="text" id="newImpYard" required placeholder="e.g. Adani CFS Yard Gate No. 2" class="w-full border border-slate-300 rounded-xl p-2 text-xs bg-white"/>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-2 gap-3">
+          <div>
+            <label class="block text-xs font-semibold text-slate-700 mb-1">Available Quantity *</label>
+            <input type="text" id="newImpQty" required placeholder="e.g. 250 MT (10 Containers)" class="w-full border border-slate-300 rounded-xl p-2 text-xs font-bold text-emerald-800"/>
+          </div>
+          <div>
+            <label class="block text-xs font-semibold text-slate-700 mb-1">Fix Spot / CIF Rate *</label>
+            <input type="text" id="newImpRate" required placeholder="e.g. ₹22,800 / MT" class="w-full border border-emerald-300 rounded-xl p-2 text-xs font-bold text-emerald-700 bg-white"/>
+          </div>
+        </div>
+
+        <button type="submit" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 rounded-xl text-xs transition shadow">
+          Publish Cargo to Trade Exchange
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Manufacturer Post Stock Modal -->
+  <div id="mfgStockModal" class="fixed inset-0 bg-black bg-opacity-70 z-50 flex items-center justify-center hidden p-4">
+    <div class="bg-white rounded-3xl max-w-xl w-full p-6 shadow-2xl relative max-h-[92vh] overflow-y-auto">
+      <button onclick="closeMfgStockModal()" class="absolute top-4 right-4 text-slate-400 hover:text-slate-700 text-lg">✕</button>
+      <div class="mb-4 border-b border-slate-200 pb-3">
+        <span class="text-[10px] font-bold uppercase bg-amber-100 text-amber-900 px-2.5 py-0.5 rounded-full">FACTORY OUTPUT UPLOAD</span>
+        <h3 class="text-base font-black text-slate-900 mt-1">Upload Factory Finished Product</h3>
+        <p class="text-xs text-slate-500">Attach product photos (Min 1, Max 9 Photos) and define commercial terms.</p>
+      </div>
+
+      <form onsubmit="handleMfgStockSubmit(event)" class="space-y-3.5">
+        <div class="bg-slate-50 p-3.5 rounded-2xl border-2 border-dashed border-amber-300">
+          <label class="block text-xs font-bold text-slate-800 mb-1">Product Images (Min 1, Max 9) *</label>
+          <div onclick="document.getElementById('mfgPhotoFileInput').click()" class="cursor-pointer text-center py-4 px-3 bg-white rounded-xl border border-slate-200 hover:border-amber-500 transition">
+            <i class="fa-solid fa-cloud-arrow-up text-3xl text-amber-600 mb-1"></i>
+            <p class="text-xs font-bold text-slate-800">Select Image Files (Click to Browse)</p>
+            <input type="file" id="mfgPhotoFileInput" accept="image/*" multiple class="hidden" onchange="handleMfgPhotosSelect(event)">
+          </div>
+          <div id="mfgPhotoPreviewContainer" class="grid grid-cols-3 sm:grid-cols-5 gap-2 mt-3"></div>
+          <span id="mfgPhotoCountNotice" class="font-bold text-amber-900 text-[10px] block mt-1">Uploaded: 0 / 9 Photos</span>
+        </div>
+
+        <div>
+          <label class="block text-xs font-semibold text-slate-700 mb-1">Product Category *</label>
+          <select id="newMfgProductCategory" onchange="handleMfgCategoryUnitChange(this.value)" class="w-full border border-slate-300 rounded-xl p-2.5 text-xs bg-white font-bold text-slate-900">
+            <option value="Carbon" selected>⚫ Carbon / Recovered Carbon Black (RCB & Char)</option>
+            <option value="Pyrolysis Oil">🛢️ Tyre Pyrolysis Oil (TPO - Litre / Kg Options)</option>
+            <option value="Scrap Tyre Wire">⚡ Scrap Tyre Wire (Radial Bead Wire Bales)</option>
+            <option value="Crumb Rubber">🏭 Crumb Rubber Granules (30-40 Mesh Pure Black)</option>
+          </select>
+        </div>
+
+        <div>
+          <label class="block text-xs font-semibold text-slate-700 mb-1">Product Title / Grade Name *</label>
+          <input type="text" id="newMfgLotName" required placeholder="e.g. Recovered Carbon Black (RCB N330 Grade Pellets)" class="w-full border border-slate-300 rounded-xl p-2.5 text-xs"/>
+        </div>
+
+        <div class="bg-amber-50/60 p-3 rounded-2xl border border-amber-200">
+          <label class="block text-xs font-bold text-amber-950 mb-1">Plant Location *</label>
+          <input type="text" id="newMfgLocation" required value="Hisar Industrial Estate (Haryana)" class="w-full border border-amber-300 rounded-xl p-2 text-xs bg-white font-medium"/>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 bg-slate-50 p-3 rounded-2xl border border-slate-200">
+          <div>
+            <label class="block text-xs font-bold text-slate-800 mb-1">Available Ready Stock *</label>
+            <div class="flex gap-2">
+              <input type="number" id="newMfgQtyNumber" required placeholder="e.g. 50" class="flex-1 border border-slate-300 rounded-xl p-2 text-xs font-bold text-emerald-800 bg-white"/>
+              <select id="newMfgQtyUnit" class="border border-slate-300 rounded-xl px-2.5 py-1 text-xs font-bold bg-white text-slate-800">
+                <option value="MT">Metric Tons (MT)</option>
+                <option value="Jumbo Bags">1-MT Jumbo Bags</option>
+                <option value="Kg">Kilograms (Kg)</option>
+              </select>
+            </div>
+          </div>
+          <div>
+            <label class="block text-xs font-bold text-slate-800 mb-1">Ex-Plant Fix Spot Rate *</label>
+            <div class="flex gap-2">
+              <input type="number" step="0.01" id="newMfgFixRateNumber" required placeholder="e.g. 22500" class="flex-1 border border-emerald-300 rounded-xl p-2 text-xs font-bold text-emerald-700 bg-white"/>
+              <select id="newMfgRateUnit" class="border border-slate-300 rounded-xl px-2.5 py-1 text-xs font-bold bg-white text-slate-800">
+                <option value="/ MT">/ MT</option>
+                <option value="/ Bag">/ Bag</option>
+                <option value="/ Kg">/ Kg</option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <button type="submit" class="w-full bg-amber-600 hover:bg-amber-700 text-white font-bold py-3 rounded-xl text-xs transition shadow">
+          Publish Product to My Factory Feed
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Trader Post Stock Modal -->
+  <div id="trdStockModal" class="fixed inset-0 bg-black bg-opacity-70 z-50 flex items-center justify-center hidden p-4">
+    <div class="bg-white rounded-3xl max-w-xl w-full p-6 shadow-2xl relative max-h-[92vh] overflow-y-auto">
+      <button onclick="closeTraderStockModal()" class="absolute top-4 right-4 text-slate-400 hover:text-slate-700 text-lg">✕</button>
+      <div class="mb-4 border-b border-slate-200 pb-3">
+        <span class="text-[10px] font-bold uppercase bg-purple-100 text-purple-900 px-2.5 py-0.5 rounded-full">TRADER MANDI STOCK</span>
+        <h3 class="text-base font-black text-slate-900 mt-1">Post Mandi / Godown Scrap Lot</h3>
+      </div>
+
+      <form onsubmit="handleTraderStockSubmit(event)" class="space-y-3.5">
+        <div class="bg-slate-50 p-3.5 rounded-2xl border-2 border-dashed border-purple-300">
+          <label class="block text-xs font-bold text-slate-800 mb-1">Product Images (Min 1, Max 9) *</label>
+          <div onclick="document.getElementById('trdPhotoFileInput').click()" class="cursor-pointer text-center py-4 px-3 bg-white rounded-xl border border-slate-200 hover:border-purple-500 transition">
+            <i class="fa-solid fa-cloud-arrow-up text-3xl text-purple-600 mb-1"></i>
+            <p class="text-xs font-bold text-slate-800">Select Image Files (Click to Browse)</p>
+            <input type="file" id="trdPhotoFileInput" accept="image/*" multiple class="hidden" onchange="handleTrdPhotosSelect(event)">
+          </div>
+          <div id="trdPhotoPreviewContainer" class="grid grid-cols-3 sm:grid-cols-5 gap-2 mt-3"></div>
+          <span id="trdPhotoCountNotice" class="font-bold text-purple-900 text-[10px] block mt-1">Uploaded: 0 / 9 Photos</span>
+        </div>
+
+        <div>
+          <label class="block text-xs font-semibold text-slate-700 mb-1">Cargo Description *</label>
+          <input type="text" id="newTrdLotName" required placeholder="e.g. Whole Radial Truck Scrap Tyres" class="w-full border border-slate-300 rounded-xl p-2.5 text-xs"/>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 bg-purple-50/50 p-3 rounded-2xl border border-purple-200">
+          <div>
+            <label class="block text-xs font-bold text-purple-950 mb-1">Mandi / Godown Yard *</label>
+            <input type="text" id="newTrdLocation" required value="Industrial Focal Point, Mandi Gobindgarh" class="w-full border border-purple-300 rounded-xl p-2 text-xs bg-white font-medium"/>
+          </div>
+          <div>
+            <label class="block text-xs font-bold text-purple-950 mb-1">Available Quantity *</label>
+            <input type="text" id="newTrdQty" required placeholder="e.g. 150 MT" class="w-full border border-purple-300 rounded-xl p-2 text-xs font-bold text-emerald-800 bg-white"/>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-2 gap-3">
+          <div>
+            <label class="block text-xs font-semibold text-slate-700 mb-1">Ex-Godown Spot Rate *</label>
+            <input type="text" id="newTrdFixRate" required placeholder="e.g. ₹20,400 / MT" class="w-full border border-emerald-300 rounded-xl p-2 text-xs font-bold text-emerald-700 bg-white"/>
+          </div>
+          <div>
+            <label class="block text-xs font-semibold text-slate-700 mb-1">Market Approx</label>
+            <input type="text" id="newTrdApproxRate" placeholder="e.g. ₹20,000 / MT" class="w-full border border-slate-300 rounded-xl p-2 text-xs bg-white"/>
+          </div>
+        </div>
+
+        <button type="submit" class="w-full bg-purple-600 hover:bg-purple-700 text-white font-bold py-3 rounded-xl text-xs transition shadow">
+          Publish Lot to Mandi Sale Feed
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <!-- B2B Deal Modal -->
+  <div id="universalDealModal" class="fixed inset-0 bg-black bg-opacity-70 z-50 flex items-center justify-center hidden p-4">
+    <div class="bg-white rounded-3xl max-w-lg w-full p-6 shadow-2xl relative max-h-[92vh] overflow-y-auto">
+      <button onclick="closeUniversalDealModal()" class="absolute top-4 right-4 text-slate-400 hover:text-slate-700 text-lg">✕</button>
+      <div class="mb-4 border-b border-slate-200 pb-3">
+        <span class="text-[10px] font-bold uppercase bg-blue-100 text-blue-900 px-2.5 py-0.5 rounded-full" id="dealTargetBadge">Party</span>
+        <h3 class="text-base font-black text-slate-900 mt-1" id="dealItemTitle">Title</h3>
+      </div>
+      <form onsubmit="submitUniversalDeal(event)" class="space-y-3">
+        <div class="grid grid-cols-2 gap-3">
+          <div>
+            <label class="block text-xs font-bold text-slate-700 mb-1">Asking Rate:</label>
+            <input type="text" id="dealOriginalRate" disabled class="w-full bg-slate-100 border border-slate-200 rounded-xl p-2 text-xs font-bold text-slate-600"/>
+          </div>
+          <div>
+            <label class="block text-xs font-bold text-emerald-800 mb-1">Your Bid Rate *</label>
+            <input type="text" id="dealBidRate" required placeholder="Offer Rate" class="w-full border border-emerald-300 rounded-xl p-2 text-xs font-bold text-emerald-800 bg-emerald-50/50"/>
+          </div>
+        </div>
+        <div>
+          <label class="block text-xs font-bold text-slate-700 mb-1">Quantity Required *</label>
+          <input type="text" id="dealReqQty" required placeholder="e.g. 50 MT / 20,000 Litres" class="w-full border border-slate-300 rounded-xl p-2 text-xs font-bold"/>
+        </div>
+        <button type="submit" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 rounded-xl text-xs transition shadow">
+          Send Direct Anonymous B2B Proposal
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer class="text-center py-4 text-xs text-slate-400 border-t border-slate-200 bg-white">
+    Global Tyre Trade &copy; 2026. All rights reserved. International B2B Scrap Tyre Network.
+  </footer>
+
+  <!-- ================= 11. JAVASCRIPT ENGINE ================= -->
+  <script>
+    const LOGGED_IN_IMPORTER_CODE = '#IMP-7491';
+    const LOGGED_IN_MFG_CODE = '#MFG-3820';
+    const LOGGED_IN_TRADER_CODE = '#TRD-9104';
+
+    let currentUserRole = 'importer';
+    let currentUsername = 'apex_exim_7491';
+    let currentImporterMode = 'purchase';
+    let currentMfgMode = 'purchase';
+    let currentTradingDesk = 'importer_lots';
+
+    let impCurrentUploadedImages = [];
+    let mfgCurrentUploadedImages = [];
+    let trdCurrentUploadedImages = [];
+
+    // Database: Option 1 Importer Lots
+    let allPortCargoLots = [
+      {
+        id: 1,
+        sellerCountry: 'India',
+        sellerFlag: '🇮🇳',
+        sellerRole: 'Indian Importer',
+        sellerCode: '#IMP-7491',
+        lotId: '#LOT-IMP-9102',
+        name: 'Scrap Tyre 3-Cut Bales (Radial Truck TBR)',
+        images: ['https://images.unsplash.com/photo-1578844251758-2f71da64c96f?w=600'],
+        port: 'Mundra Port CFS (Gujarat)',
+        portKey: 'Mundra',
+        quantity: '450 Metric Tons (18 Containers Ready)',
+        approxPrice: '₹22,000 / MT',
+        fixPrice: '₹22,800 / MT (Spot Mundra)',
+        details: 'High-density compressed 3-cut radial truck tyres, 0% bead wire contamination, customs cleared.'
+      },
+      {
+        id: 2,
+        sellerCountry: 'USA',
+        sellerFlag: '🇺🇸',
+        sellerRole: 'Overseas Exporter',
+        sellerCode: '#EXP-8812',
+        lotId: '#LOT-EXP-8812',
+        name: 'Whole Radial Truck Scrap Tyres (TBR Commercial)',
+        images: ['https://images.unsplash.com/photo-1580273916550-e323be2ae537?w=600'],
+        port: 'Kandla Port Yard (Gujarat)',
+        portKey: 'Kandla',
+        quantity: '300 Metric Tons (12 Containers)',
+        approxPrice: '₹21,500 / MT',
+        fixPrice: '₹22,100 / MT (CIF Kandla)',
+        details: 'Exported from New Jersey and Houston ports, high hydrocarbon content.'
+      }
+    ];
+
+    // Database: Option 2 Recycler Finished Output Goods
+    let mfgClientFinishedLots = [
+      {
+        id: 201,
+        category: 'Carbon',
+        mfgCode: '#MFG-3820',
+        lotId: '#LOT-RCB-382',
+        name: 'Recovered Carbon Black (RCB N330 Grade Pellets)',
+        image: 'https://images.unsplash.com/photo-1504917599217-d4dc5ebe6122?w=600',
+        location: 'Industrial Estate, Hisar (Haryana)',
+        quantity: '60 Metric Tons (1-MT Jumbo Bags)',
+        approxPrice: '₹21,800 / MT',
+        fixPrice: '₹22,500 / MT (Ex-Plant)',
+        details: 'Fixed Carbon 83%, Ash Content 13%, fine pelletized form, high tint strength, ready in 1-ton jumbo bags.'
+      },
+      {
+        id: 202,
+        category: 'Carbon',
+        mfgCode: '#MFG-3820',
+        lotId: '#LOT-CHAR-104',
+        name: 'Pyrolysis Raw Carbon Char (Milling / Fuel Grade)',
+        image: 'https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?w=600',
+        location: 'Industrial Estate, Hisar (Haryana)',
+        quantity: '40 Metric Tons (Loose / Bales)',
+        approxPrice: '₹8,500 / MT',
+        fixPrice: '₹9,200 / MT (Net Cash)',
+        details: 'GCV 6,800 kcal/kg, low moisture, de-stoned, ready for boiler fuel or micro-pulverization.'
+      },
+      {
+        id: 203,
+        category: 'Pyrolysis Oil',
+        mfgCode: '#MFG-3820',
+        lotId: '#LOT-TPO-382',
+        name: 'Tyre Pyrolysis Oil TPO (Dual Unit: Litre & Kg)',
+        image: 'https://images.unsplash.com/photo-1518709268805-4e9042af9f23?w=600',
+        location: 'Industrial Estate, Hisar (Haryana)',
+        quantity: '25,000 Litres (~23,000 Kg / 1 Tanker)',
+        approxPrice: '₹46.50 / Ltr (₹50.50 / Kg)',
+        fixPrice: '₹47.50 / Litre (₹51.60 / Kg)',
+        details: 'Distilled light fuel oil, GCV 10,200 kcal/kg, density 0.92 g/ml, ready for direct tanker loading.'
+      },
+      {
+        id: 204,
+        category: 'Scrap Tyre Wire',
+        mfgCode: '#MFG-3820',
+        lotId: '#LOT-STW-901',
+        name: 'Scrap Tyre Wire (Radial Bead Wire Bales)',
+        image: 'https://images.unsplash.com/photo-1504917599217-d4dc5ebe6122?w=600',
+        location: 'Sector 27-28, Hisar Industrial Area',
+        quantity: '65 Metric Tons (Hydraulic Bales)',
+        approxPrice: '₹28,800 / MT',
+        fixPrice: '₹29,200 / MT (Ex-Factory)',
+        details: 'High tensile radial tyre bead wire scrap extracted from tyre debeading, pressed bales.'
+      }
+    ];
+
+    // Database: Recycler Raw Procurement Lots
+    let mfgRawProcurementLots = [
+      {
+        id: 101,
+        sellerCode: '#TRD-9104',
+        lotId: '#LOT-RAW-101',
+        name: 'Whole Truck Commercial Scrap Tyres (Mandi Lot)',
+        image: 'https://images.unsplash.com/photo-1580273916550-e323be2ae537?w=600',
+        location: 'Industrial Focal Point, Mandi Gobindgarh',
+        quantity: '150 Metric Tons (Ready Yard)',
+        approxPrice: '₹19,800 / MT',
+        fixPrice: '₹20,400 / MT (Spot Cash)',
+        details: 'Heavy commercial whole TBR tyres with bead wire, high hydrocarbon content.'
+      }
+    ];
+
+    // Database: Option 3 Trader Mandi Lots
+    let trdMyMandiLots = [
+      {
+        id: 401,
+        traderCode: '#TRD-9104',
+        lotId: '#LOT-TRD-101',
+        name: 'Whole Truck Scrap Tyres (Mandi Gobindgarh Ready)',
+        image: 'https://images.unsplash.com/photo-1580273916550-e323be2ae537?w=600',
+        location: 'Industrial Focal Point, Mandi Gobindgarh',
+        quantity: '150 Metric Tons',
+        approxPrice: '₹19,800 / MT',
+        fixPrice: '₹20,400 / MT (Spot Cash)',
+        details: 'Ready stock in godown. Electronic weighbridge slip provided.'
+      }
+    ];
+
+    let trdRecyclerDemands = [
+      {
+        id: 201,
+        buyerCode: '#MFG-3820',
+        demandId: '#RFQ-RAW-401',
+        title: 'Requirement: Scrap Tyre 3-Cut Bales / Whole TBR',
+        factoryLocation: 'Hisar Industrial Area, Haryana',
+        requiredQty: '100 MT / Month',
+        targetPrice: 'Target: ₹22,400 / MT',
+        details: 'Continuous pyrolysis refinery consumption. Immediate spot RTGS payment upon weighbridge.'
+      }
+    ];
+
+    // ================= FLOW CONTROL =================
+    function updateDefaultUser(role) {
+      const uInput = document.getElementById('loginUsername');
+      if (role === 'importer') uInput.value = 'apex_exim_7491';
+      else if (role === 'manufacturer') uInput.value = 'endure_recycler_3820';
+      else if (role === 'trading') uInput.value = 'mahalaxmi_trader_9104';
+    }
+
+    function switchAuthTab(tab) {
+      document.getElementById('view-login').classList.toggle('hidden', tab !== 'login');
+      document.getElementById('view-register').classList.toggle('hidden', tab !== 'register');
+      document.getElementById('view-forgot').classList.toggle('hidden', tab !== 'forgot');
+
+      document.getElementById('tabBtn-login').className = tab === 'login'
+        ? "flex-1 py-2.5 rounded-xl transition flex items-center justify-center gap-2 bg-white text-blue-700 shadow-sm border border-slate-200/80"
+        : "flex-1 py-2.5 rounded-xl transition flex items-center justify-center gap-2 text-slate-600 hover:text-slate-900 hover:bg-white/60";
+
+      document.getElementById('tabBtn-register').className = tab === 'register'
+        ? "flex-1 py-2.5 rounded-xl transition flex items-center justify-center gap-2 bg-white text-blue-700 shadow-sm border border-slate-200/80"
+        : "flex-1 py-2.5 rounded-xl transition flex items-center justify-center gap-2 text-slate-600 hover:text-slate-900 hover:bg-white/60";
+    }
+
+    function togglePasswordVisibility(inputId, iconId) {
+      const input = document.getElementById(inputId);
+      const icon = document.getElementById(iconId);
+      input.type = input.type === 'password' ? 'text' : 'password';
+      icon.className = input.type === 'password' ? 'fa-solid fa-eye' : 'fa-solid fa-eye-slash';
+    }
+
+    function handleLoginSubmit(e) {
+      e.preventDefault();
+      currentUserRole = document.querySelector('input[name="loginRoleChoice"]:checked').value;
+      currentUsername = document.getElementById('loginUsername').value;
+      transitionToMasterHub();
+    }
+
+    function handleRegisterSubmit(e) {
+      e.preventDefault();
+      currentUserRole = document.querySelector('input[name="businessCategory"]:checked').value;
+      currentUsername = document.getElementById('regUsername').value;
+      alert(`Account Created Successfully!\nRole: ${currentUserRole.toUpperCase()}`);
+      transitionToMasterHub();
+    }
+
+    function handleForgotSubmit(e) {
+      e.preventDefault();
+      alert("Verification instructions dispatched.");
+      switchAuthTab('login');
+    }
+
+    function transitionToMasterHub() {
+      document.getElementById('authScreen').classList.add('hidden');
+      document.getElementById('mainHubScreen').classList.remove('hidden');
+      document.getElementById('topMandiTicker').classList.remove('hidden');
+
+      const roleName = currentUserRole === 'importer' ? 'Importer / Exporter' : (currentUserRole === 'manufacturer' ? 'Manufacturer / Recycler' : 'Trading Merchant');
+      document.getElementById('hubActiveRoleBadge').innerText = `Authorized Role: ${roleName}`;
+      document.getElementById('hubUserStatusSubtext').innerText = `Signed in as @${currentUsername} (${roleName})`;
+
+      updateMasterHubCards();
+    }
+
+    function updateMasterHubCards() {
+      const segments = [
+        {
+          key: 'importer',
+          optionNum: 'Option 1',
+          title: '1. Importers Portal',
+          icon: 'fa-ship',
+          color: 'blue',
+          desc: 'Global scrap tyre port cargo, discharge CFS yards, 1-9 direct photos, and container deals.'
+        },
+        {
+          key: 'manufacturer',
+          optionNum: 'Option 2',
+          title: '2. Recyclers Portal',
+          icon: 'fa-industry',
+          color: 'amber',
+          desc: 'Procure raw scrap tyres or sell plant output: Carbon Black, Tyre Pyrolysis Oil (Ltr/Kg), Wire, and Crumb.'
+        },
+        {
+          key: 'trading',
+          optionNum: 'Option 3',
+          title: '3. Traders Portal',
+          icon: 'fa-handshake',
+          color: 'purple',
+          desc: 'Multi-desk hub: buy Importers cargo, supply Recyclers demand, purchase output, and sell Mandi stock.'
+        }
+      ];
+
+      segments.forEach(seg => {
+        const cardContainer = document.getElementById(`hubCard-${seg.key}`);
+        const contentContainer = document.getElementById(`hubCardContent-${seg.key}`);
+        const isAuthorized = (currentUserRole === seg.key);
+
+        if (isAuthorized) {
+          cardContainer.className = `relative bg-white rounded-3xl p-6 shadow-md border-2 border-${seg.color}-500 hover:border-${seg.color}-600 hover:shadow-xl transition-all flex flex-col justify-between cursor-pointer group`;
+          cardContainer.onclick = () => openPortal(seg.key);
+
+          contentContainer.innerHTML = `
+            <div class="mb-3 flex items-center justify-between">
+              <span class="bg-${seg.color}-100 text-${seg.color}-900 text-[10px] font-black uppercase px-2.5 py-0.5 rounded-full">
+                ${seg.optionNum} • Active Access
+              </span>
+              <span class="text-emerald-600 text-xs font-bold flex items-center gap-1">
+                <i class="fa-solid fa-lock-open text-[11px]"></i> Unlocked
+              </span>
+            </div>
+            <div class="w-16 h-16 mx-auto bg-${seg.color}-50 text-${seg.color}-600 rounded-2xl flex items-center justify-center text-3xl mb-4 group-hover:bg-${seg.color}-600 group-hover:text-white transition">
+              <i class="fa-solid ${seg.icon}"></i>
+            </div>
+            <h3 class="text-xl font-bold text-slate-900 mb-1.5 text-center">${seg.title}</h3>
+            <p class="text-xs text-slate-500 leading-relaxed mb-6 text-center">${seg.desc}</p>
+            <div class="w-full bg-${seg.color}-600 text-white font-bold py-2.5 rounded-xl text-xs shadow group-hover:bg-${seg.color}-700 transition flex items-center justify-center gap-1">
+              <span>Enter ${seg.title}</span>
+              <i class="fa-solid fa-arrow-right text-xs"></i>
+            </div>
+          `;
+        } else {
+          cardContainer.className = `relative bg-slate-50/80 rounded-3xl p-6 shadow-none border-2 border-slate-200 opacity-65 cursor-not-allowed select-none flex flex-col justify-between`;
+          cardContainer.onclick = () => alert(`Access Restricted!\n\nYou are logged in under "${currentUserRole.toUpperCase()}". "${seg.title}" is reserved for authorized segment members.`);
+
+          contentContainer.innerHTML = `
+            <div class="mb-3 flex items-center justify-between">
+              <span class="bg-slate-200 text-slate-600 text-[10px] font-black uppercase px-2.5 py-0.5 rounded-full">
+                ${seg.optionNum} • Locked
+              </span>
+              <span class="text-rose-600 text-xs font-bold flex items-center gap-1 bg-rose-50 px-2 py-0.5 rounded-md border border-rose-200">
+                <i class="fa-solid fa-lock text-[10px]"></i> Restricted
+              </span>
+            </div>
+            <div class="w-16 h-16 mx-auto bg-slate-200/70 text-slate-400 rounded-2xl flex items-center justify-center text-3xl mb-4">
+              <i class="fa-solid fa-lock"></i>
+            </div>
+            <h3 class="text-xl font-bold text-slate-500 mb-1.5 text-center">${seg.title}</h3>
+            <p class="text-xs text-slate-400 leading-relaxed mb-6 text-center">
+              Access locked. Your account is registered under a different business profile.
+            </p>
+            <div class="w-full bg-slate-200 text-slate-500 font-bold py-2.5 rounded-xl text-xs flex items-center justify-center gap-1.5 cursor-not-allowed">
+              <i class="fa-solid fa-lock text-[10px]"></i>
+              <span>Access Restricted</span>
+            </div>
+          `;
+        }
+      });
+    }
+
+    function openPortal(type) {
+      if (type !== currentUserRole) {
+        alert("Access Restricted! You can only access your authorized business portal.");
+        return;
+      }
+
+      document.getElementById('mainHubScreen').classList.add('hidden');
+      document.getElementById('importerPortalScreen').classList.add('hidden');
+      document.getElementById('mfgPortalScreen').classList.add('hidden');
+      document.getElementById('tradingPortalScreen').classList.add('hidden');
+
+      if (type === 'importer') {
+        document.getElementById('importerPortalScreen').classList.remove('hidden');
+        switchImporterPortalMode('purchase');
+      } else if (type === 'manufacturer') {
+        document.getElementById('mfgPortalScreen').classList.remove('hidden');
+        switchMfgMode('purchase');
+      } else if (type === 'trading') {
+        document.getElementById('tradingPortalScreen').classList.remove('hidden');
+        switchTradingDesk('importer_lots');
+      }
+    }
+
+    function backToHub() {
+      document.getElementById('importerPortalScreen').classList.add('hidden');
+      document.getElementById('mfgPortalScreen').classList.add('hidden');
+      document.getElementById('tradingPortalScreen').classList.add('hidden');
+      document.getElementById('mainHubScreen').classList.remove('hidden');
+    }
+
+    function handleLogout() {
+      document.getElementById('mainHubScreen').classList.add('hidden');
+      document.getElementById('importerPortalScreen').classList.add('hidden');
+      document.getElementById('mfgPortalScreen').classList.add('hidden');
+      document.getElementById('tradingPortalScreen').classList.add('hidden');
+      document.getElementById('topMandiTicker').classList.add('hidden');
+      document.getElementById('authScreen').classList.remove('hidden');
+      switchAuthTab('login');
+    }
+
+    // ================= OPTION 1 IMPORTER WORKSPACE =================
+    function switchImporterPortalMode(mode) {
+      currentImporterMode = mode;
+      document.getElementById('impView-purchase').classList.toggle('hidden', mode !== 'purchase');
+      document.getElementById('impView-sale').classList.toggle('hidden', mode !== 'sale');
+      document.getElementById('impModeBtn-purchase').className = (mode === 'purchase')
+        ? "flex-1 py-3 px-4 rounded-xl font-black text-xs sm:text-sm flex items-center justify-center gap-2 transition shadow-sm bg-blue-600 text-white"
+        : "flex-1 py-3 px-4 rounded-xl font-bold text-xs sm:text-sm flex items-center justify-center gap-2 transition text-slate-700 hover:bg-blue-50";
+      document.getElementById('impModeBtn-sale').className = (mode === 'sale')
+        ? "flex-1 py-3 px-4 rounded-xl font-black text-xs sm:text-sm flex items-center justify-center gap-2 transition shadow-sm bg-blue-600 text-white"
+        : "flex-1 py-3 px-4 rounded-xl font-bold text-xs sm:text-sm flex items-center justify-center gap-2 transition text-slate-700 hover:bg-blue-50";
+
+      if (mode === 'purchase') renderImporterPurchaseFeed();
+      else renderImporterMySaleFeed();
+    }
+
+    function renderImporterPurchaseFeed() {
+      const g = document.getElementById('importerPurchaseLotsGrid'); g.innerHTML = '';
+      allPortCargoLots.forEach(item => {
+        const card = document.createElement('div');
+        card.className = "bg-white border-2 border-blue-200 rounded-3xl overflow-hidden p-4 shadow-sm hover:shadow-xl transition flex flex-col justify-between";
+        card.innerHTML = `
+          <div>
+            <span class="text-[10px] font-bold uppercase bg-blue-100 text-blue-900 px-2.5 py-0.5 rounded-full">${item.sellerCode} (${item.sellerCountry})</span>
+            <h4 class="font-black text-sm text-slate-900 mt-2">${item.name}</h4>
+            <p class="text-xs text-slate-600 mt-1">Discharge Port: <strong>${item.port}</strong></p>
+            <div class="text-xs font-black text-emerald-700 mt-2">${item.fixPrice} • ${item.quantity}</div>
+          </div>
+          <button onclick="openUniversalDeal('${item.sellerCode}', '${item.name}', '${item.fixPrice}')" class="mt-4 w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 rounded-xl text-xs">
+            Purchase Port Cargo
+          </button>
+        `;
+        g.appendChild(card);
+      });
+    }
+
+    function renderImporterMySaleFeed() {
+      const g = document.getElementById('importerMySaleLotsGrid'); g.innerHTML = '';
+      const myLots = allPortCargoLots.filter(item => item.sellerCode === LOGGED_IN_IMPORTER_CODE);
+      myLots.forEach(item => {
+        const card = document.createElement('div');
+        card.className = "bg-white border-2 border-blue-300 rounded-3xl overflow-hidden p-4 shadow-sm flex flex-col justify-between";
+        card.innerHTML = `
+          <div>
+            <span class="text-[10px] font-bold uppercase bg-emerald-100 text-emerald-800 px-2 py-0.5 rounded">My Active Listing</span>
+            <h4 class="font-black text-sm text-slate-900 mt-2">${item.name}</h4>
+            <p class="text-xs text-slate-600 mt-1">Port: <strong>${item.port}</strong></p>
+            <div class="text-xs font-black text-emerald-700 mt-2">${item.fixPrice} • ${item.quantity}</div>
+          </div>
+          <div class="mt-3 text-center text-xs font-bold text-emerald-700 bg-emerald-50 py-1.5 rounded-xl border border-emerald-200">
+            ✓ Active on Port Exchange
+          </div>
+        `;
+        g.appendChild(card);
+      });
+    }
+
+    // ================= OPTION 2 RECYCLER WORKSPACE =================
+    function switchMfgMode(mode) {
+      currentMfgMode = mode;
+      document.getElementById('mfgView-purchase').classList.toggle('hidden', mode !== 'purchase');
+      document.getElementById('mfgView-sale').classList.toggle('hidden', mode !== 'sale');
+      document.getElementById('mfgModeBtn-purchase').className = (mode === 'purchase')
+        ? "flex-1 py-3 px-4 rounded-xl font-black text-xs sm:text-sm flex items-center justify-center gap-2 transition shadow-sm bg-blue-600 text-white"
+        : "flex-1 py-3 px-4 rounded-xl font-bold text-xs sm:text-sm flex items-center justify-center gap-2 transition text-slate-700 hover:bg-amber-50";
+      document.getElementById('mfgModeBtn-sale').className = (mode === 'sale')
+        ? "flex-1 py-3 px-4 rounded-xl font-black text-xs sm:text-sm flex items-center justify-center gap-2 transition shadow-sm bg-amber-600 text-white"
+        : "flex-1 py-3 px-4 rounded-xl font-bold text-xs sm:text-sm flex items-center justify-center gap-2 transition text-slate-700 hover:bg-blue-50";
+
+      if (mode === 'purchase') renderMfgPurchaseFeed();
+      else renderMfgSaleFeed('ALL');
+    }
+
+    function renderMfgPurchaseFeed() {
+      const g = document.getElementById('mfgPurchaseGrid'); g.innerHTML = '';
+      mfgRawProcurementLots.forEach(item => {
+        const card = document.createElement('div');
+        card.className = "bg-white border-2 border-blue-200 rounded-3xl overflow-hidden p-4 shadow-sm hover:shadow-xl transition flex flex-col justify-between";
+        card.innerHTML = `
+          <div>
+            <span class="text-[10px] font-bold uppercase bg-blue-100 text-blue-900 px-2 py-0.5 rounded">${item.sellerCode}</span>
+            <h4 class="font-black text-sm text-slate-900 mt-2">${item.name}</h4>
+            <p class="text-xs text-slate-600 mt-1">Yard: <strong>${item.location}</strong></p>
+            <div class="text-xs font-black text-emerald-700 mt-2">${item.fixPrice} • ${item.quantity}</div>
+          </div>
+          <button onclick="openUniversalDeal('${item.sellerCode}', '${item.name}', '${item.fixPrice}')" class="mt-4 w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 rounded-xl text-xs">
+            Purchase Raw Scrap Tyres
+          </button>
+        `;
+        g.appendChild(card);
+      });
+    }
+
+    function renderMfgSaleFeed(cat = 'ALL') {
+      const g = document.getElementById('mfgSaleGrid'); g.innerHTML = '';
+      const myLots = mfgClientFinishedLots.filter(i => (cat === 'ALL' || i.category === cat));
+      myLots.forEach(item => {
+        const card = document.createElement('div');
+        card.className = "bg-white border-2 border-amber-300 rounded-3xl overflow-hidden p-4 shadow-sm hover:shadow-xl transition flex flex-col justify-between";
+        card.innerHTML = `
+          <div>
+            <span class="text-[10px] font-bold uppercase bg-amber-100 text-amber-900 px-2 py-0.5 rounded">${item.category}</span>
+            <h4 class="font-black text-sm text-slate-900 mt-2">${item.name}</h4>
+            <p class="text-xs text-slate-600 mt-1">Plant: <strong>${item.location}</strong></p>
+            <div class="text-xs font-black text-emerald-700 mt-2">${item.fixPrice} • ${item.quantity}</div>
+          </div>
+          <div class="mt-3 text-center text-xs font-bold text-emerald-700 bg-emerald-50 py-1.5 rounded-xl border border-emerald-200">
+            ✓ Active on Factory Exchange
+          </div>
+        `;
+        g.appendChild(card);
+      });
+    }
+
+    // ================= OPTION 3 TRADER WORKSPACE =================
+    function switchTradingDesk(deskKey) {
+      currentTradingDesk = deskKey;
+      const desks = ['importer_lots', 'recycler_demand', 'recycler_finished', 'my_mandi_stock'];
+      desks.forEach(d => {
+        document.getElementById(`trdView-${d}`).classList.toggle('hidden', d !== deskKey);
+        const btn = document.getElementById(`trdDeskBtn-${d}`);
+        btn.className = (d === deskKey)
+          ? "flex-1 min-w-[200px] py-2.5 px-3 rounded-xl font-black text-xs flex items-center justify-center gap-2 transition shadow-sm bg-purple-600 text-white"
+          : "flex-1 min-w-[200px] py-2.5 px-3 rounded-xl font-bold text-xs flex items-center justify-center gap-2 transition text-slate-700 hover:bg-slate-50";
+      });
+
+      if (deskKey === 'importer_lots') renderTrdImporterLots();
+      else if (deskKey === 'recycler_demand') renderTrdRecyclerDemands();
+      else if (deskKey === 'recycler_finished') renderTrdRecyclerFinished();
+      else if (deskKey === 'my_mandi_stock') renderTrdMyStock();
+    }
+
+    function renderTrdImporterLots() {
+      const g = document.getElementById('trdImporterLotsGrid'); g.innerHTML = '';
+      allPortCargoLots.forEach(item => {
+        const c = document.createElement('div');
+        c.className = "bg-white border-2 border-blue-200 rounded-3xl overflow-hidden p-4 shadow-sm flex flex-col justify-between";
+        c.innerHTML = `
+          <div>
+            <span class="text-[10px] font-bold uppercase bg-blue-100 text-blue-900 px-2 py-0.5 rounded">${item.sellerCode}</span>
+            <h4 class="font-black text-sm text-slate-900 mt-2">${item.name}</h4>
+            <p class="text-xs text-slate-600 mt-1">Port: <strong>${item.port}</strong></p>
+            <div class="text-xs font-black text-emerald-700 mt-2">${item.fixPrice} • ${item.quantity}</div>
+          </div>
+          <button onclick="openUniversalDeal('${item.sellerCode}', '${item.name}', '${item.fixPrice}')" class="mt-4 w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 rounded-xl text-xs">
+            Purchase Port Cargo
+          </button>
+        `;
+        g.appendChild(c);
+      });
+    }
+
+    function renderTrdRecyclerDemands() {
+      const g = document.getElementById('trdRecyclerDemandGrid'); g.innerHTML = '';
+      trdRecyclerDemands.forEach(item => {
+        const c = document.createElement('div');
+        c.className = "bg-white border-2 border-amber-300 rounded-3xl overflow-hidden p-4 shadow-sm flex flex-col justify-between";
+        c.innerHTML = `
+          <div>
+            <span class="text-[10px] font-bold uppercase bg-amber-100 text-amber-900 px-2 py-0.5 rounded">${item.buyerCode} (Recycling Plant)</span>
+            <h4 class="font-black text-sm text-slate-900 mt-2">${item.title}</h4>
+            <p class="text-xs text-slate-600 mt-1">Plant: <strong>${item.factoryLocation}</strong></p>
+            <div class="text-xs font-black text-amber-900 mt-2">${item.targetPrice} • ${item.requiredQty}</div>
+          </div>
+          <button onclick="openUniversalDeal('${item.buyerCode}', '${item.title}', '${item.targetPrice}')" class="mt-4 w-full bg-amber-600 hover:bg-amber-700 text-white font-bold py-2 rounded-xl text-xs">
+            Supply Raw Tyres to Plant
+          </button>
+        `;
+        g.appendChild(c);
+      });
+    }
+
+    function renderTrdRecyclerFinished() {
+      const g = document.getElementById('trdRecyclerFinishedGrid'); g.innerHTML = '';
+      mfgClientFinishedLots.forEach(item => {
+        const c = document.createElement('div');
+        c.className = "bg-white border-2 border-emerald-200 rounded-3xl overflow-hidden p-4 shadow-sm flex flex-col justify-between";
+        c.innerHTML = `
+          <div>
+            <span class="text-[10px] font-bold uppercase bg-emerald-100 text-emerald-900 px-2 py-0.5 rounded">${item.mfgCode} (Recycler Output)</span>
+            <h4 class="font-black text-sm text-slate-900 mt-2">${item.name}</h4>
+            <p class="text-xs text-slate-600 mt-1">Plant: <strong>${item.location}</strong></p>
+            <div class="text-xs font-black text-emerald-700 mt-2">${item.fixPrice} • ${item.quantity}</div>
+          </div>
+          <button onclick="openUniversalDeal('${item.mfgCode}', '${item.name}', '${item.fixPrice}')" class="mt-4 w-full bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-2 rounded-xl text-xs">
+            Buy Plant Output
+          </button>
+        `;
+        g.appendChild(c);
+      });
+    }
+
+    function renderTrdMyStock() {
+      const g = document.getElementById('trdMyStockGrid'); g.innerHTML = '';
+      trdMyMandiLots.forEach(item => {
+        const c = document.createElement('div');
+        c.className = "bg-white border-2 border-purple-300 rounded-3xl overflow-hidden p-4 shadow-sm flex flex-col justify-between";
+        c.innerHTML = `
+          <div>
+            <span class="text-[10px] font-bold uppercase bg-purple-100 text-purple-900 px-2 py-0.5 rounded">Mandi Stock</span>
+            <h4 class="font-black text-sm text-slate-900 mt-2">${item.name}</h4>
+            <p class="text-xs text-slate-600 mt-1">Yard: <strong>${item.location}</strong></p>
+            <div class="text-xs font-black text-purple-900 mt-2">${item.fixPrice} • ${item.quantity}</div>
+          </div>
+          <div class="mt-3 text-center text-xs font-bold text-emerald-700 bg-emerald-50 py-1.5 rounded-xl border border-emerald-200">
+            ✓ Active on Mandi Desk
+          </div>
+        `;
+        g.appendChild(c);
+      });
+    }
+
+    // ================= DRAWERS & MODALS TOGGLES =================
+    function toggleImporterDrawer(o) {
+      document.getElementById('impDrawerBackdrop').classList.toggle('hidden', !o);
+      document.getElementById('impSideDrawer').classList.toggle('-translate-x-full', !o);
+    }
+    function toggleImpAccordion(id) {
+      document.getElementById(id).classList.toggle('hidden');
+      document.getElementById(`icon-${id}`).classList.toggle('fa-chevron-up');
+    }
+    function toggleMfgDrawer(o) {
+      document.getElementById('mfgDrawerBackdrop').classList.toggle('hidden', !o);
+      document.getElementById('mfgSideDrawer').classList.toggle('-translate-x-full', !o);
+    }
+    function toggleMfgAccordion(id) {
+      document.getElementById(id).classList.toggle('hidden');
+      document.getElementById(`icon-${id}`).classList.toggle('fa-chevron-up');
+    }
+    function toggleTradingDrawer(o) {
+      document.getElementById('trdDrawerBackdrop').classList.toggle('hidden', !o);
+      document.getElementById('trdSideDrawer').classList.toggle('-translate-x-full', !o);
+    }
+    function toggleTrdAccordion(id) {
+      document.getElementById(id).classList.toggle('hidden');
+      document.getElementById(`icon-${id}`).classList.toggle('fa-chevron-up');
+    }
+
+    // Deal Modal
+    function openUniversalDeal(code, name, rate) {
+      document.getElementById('dealTargetBadge').innerText = `Party: ${code}`;
+      document.getElementById('dealItemTitle').innerText = name;
+      document.getElementById('dealOriginalRate').value = rate;
+      document.getElementById('dealBidRate').value = rate;
+      document.getElementById('universalDealModal').classList.remove('hidden');
+    }
+    function closeUniversalDealModal() {
+      document.getElementById('universalDealModal').classList.add('hidden');
+    }
+    function submitUniversalDeal(e) {
+      e.preventDefault();
+      closeUniversalDealModal();
+      alert("🎉 Direct B2B Purchase Proposal Dispatched Successfully!");
+    }
+
+    // Modal Triggers
+    function openImporterStockModal() { document.getElementById('impStockModal').classList.remove('hidden'); }
+    function closeImporterStockModal() { document.getElementById('impStockModal').classList.add('hidden'); }
+    function openMfgStockModal() { document.getElementById('mfgStockModal').classList.remove('hidden'); }
+    function closeMfgStockModal() { document.getElementById('mfgStockModal').classList.add('hidden'); }
+    function openTraderStockModal() { document.getElementById('trdStockModal').classList.remove('hidden'); }
+    function closeTraderStockModal() { document.getElementById('trdStockModal').classList.add('hidden'); }
+
+    // Units Handler for Pyrolysis Oil, Carbon, Wire
+    function handleMfgCategoryUnitChange(cat) {
+      const q = document.getElementById('newMfgQtyUnit');
+      const r = document.getElementById('newMfgRateUnit');
+      if (cat === 'Pyrolysis Oil') {
+        q.innerHTML = `<option value="Litres">Litres (Ltr)</option><option value="Kg">Kilograms (Kg)</option><option value="MT">Metric Tons (MT)</option>`;
+        r.innerHTML = `<option value="/ Litre">/ Litre</option><option value="/ Kg">/ Kg</option><option value="/ MT">/ MT</option>`;
+      } else if (cat === 'Carbon') {
+        q.innerHTML = `<option value="MT">Metric Tons (MT)</option><option value="Jumbo Bags">1-MT Jumbo Bags</option><option value="Kg">Kilograms (Kg)</option>`;
+        r.innerHTML = `<option value="/ MT">/ MT</option><option value="/ Bag">/ Bag</option><option value="/ Kg">/ Kg</option>`;
+      } else {
+        q.innerHTML = `<option value="MT">Metric Tons (MT)</option><option value="Kg">Kilograms (Kg)</option>`;
+        r.innerHTML = `<option value="/ MT">/ MT</option><option value="/ Kg">/ Kg</option>`;
+      }
+    }
+
+    function handleImpPhotosSelect(e) {
+      const files = Array.from(e.target.files);
+      if(files.length === 0) return;
+      files.forEach(f => {
+        const reader = new FileReader();
+        reader.onload = ev => {
+          impCurrentUploadedImages.push(ev.target.result);
+          document.getElementById('impPhotoCountNotice').innerText = `Uploaded: ${impCurrentUploadedImages.length} / 9 Photos`;
+        };
+        reader.readAsDataURL(f);
+      });
+    }
+
+    function handleMfgPhotosSelect(e) {
+      const files = Array.from(e.target.files);
+      if(files.length === 0) return;
+      files.forEach(f => {
+        const reader = new FileReader();
+        reader.onload = ev => {
+          mfgCurrentUploadedImages.push(ev.target.result);
+          document.getElementById('mfgPhotoCountNotice').innerText = `Uploaded: ${mfgCurrentUploadedImages.length} / 9 Photos`;
+        };
+        reader.readAsDataURL(f);
+      });
+    }
+
+    function handleTrdPhotosSelect(e) {
+      const files = Array.from(e.target.files);
+      if(files.length === 0) return;
+      files.forEach(f => {
+        const reader = new FileReader();
+        reader.onload = ev => {
+          trdCurrentUploadedImages.push(ev.target.result);
+          document.getElementById('trdPhotoCountNotice').innerText = `Uploaded: ${trdCurrentUploadedImages.length} / 9 Photos`;
+        };
+        reader.readAsDataURL(f);
+      });
+    }
+
+    function handleImporterStockSubmit(e) {
+      e.preventDefault();
+      closeImporterStockModal();
+      alert("Port listing published!");
+      switchImporterPortalMode('sale');
+    }
+
+    function handleMfgStockSubmit(e) {
+      e.preventDefault();
+      closeMfgStockModal();
+      alert("Product published!");
+      switchMfgMode('sale');
+    }
+
+    function handleTraderStockSubmit(e) {
+      e.preventDefault();
+      closeTraderStockModal();
+      alert("Mandi lot published!");
+      switchTradingDesk('my_mandi_stock');
+    }
+  </script>
+</body>
+</html>
